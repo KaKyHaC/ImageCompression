@@ -198,4 +198,16 @@ public class MyImage {
     public Bitmap getBitmap() {
         return bitmap;
     }
+
+    public short[][] getR() {
+        return R;
+    }
+
+    public short[][] getG() {
+        return G;
+    }
+
+    public short[][] getB() {
+        return B;
+    }
 }

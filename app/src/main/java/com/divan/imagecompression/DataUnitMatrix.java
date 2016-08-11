@@ -171,7 +171,7 @@ public class DataUnitMatrix {
             for(int j=0;j<duHeight;j++)
             {
                DU[i][j].directDCT();
-            //    DU[i][j].directQuantization(tq);
+              //  DU[i][j].directQuantization(tq);// <--------------slow
                 if(i==0&&j==0)
                     AC=DU[i][j].getAC();
                 DU[i][j].setAC(AC-DU[i][j].getAC());
@@ -186,7 +186,7 @@ public class DataUnitMatrix {
             {
 
                 DU[i][j].setAC(AC-DU[i][j].getAC());
-             //   DU[i][j].reverseQuantization(tq);
+              // DU[i][j].reverseQuantization(tq);// <--------------slow
                 DU[i][j].reverseDCT();
 
             }
