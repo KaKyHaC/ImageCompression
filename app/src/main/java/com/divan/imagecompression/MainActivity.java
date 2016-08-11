@@ -2,6 +2,7 @@ package com.divan.imagecompression;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -22,18 +23,13 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bmOriginal = BitmapFactory.decodeResource(getResources(),
                 R.drawable.kiev);
         befor.setImageBitmap(bmOriginal);
+//async <code></code>
 
-        MyImage mi=new MyImage(bmOriginal);
-        mi.BitmapToYCbCr();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+        JPEGcodek jpg = new JPEGcodek();
+        jpg.execute(bmOriginal);
 
-        DataUnitMatrix bdu =new DataUnitMatrix(mi.getY(),mi.getWidth(),mi.getHeight(),TypeQuantization.luminosity);//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
-        DataUnitMatrix adu =new DataUnitMatrix(bdu.getDataDCT(),bdu.getAC(),bdu.getWidth(),bdu.getHeight(),TypeQuantization.luminosity);//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
 
-        MyImage af=new MyImage(adu.getWidth(),adu.getHeight(),adu.getDataOrigin(),mi.getCb(),mi.getCr());//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
-        af.FromYBRtoRGB();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
-        af.FromRGBtoBitmap();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
 
-        after.setImageBitmap(af.getBitmap());
 
 /*
         int xyi;
@@ -55,5 +51,33 @@ public class MainActivity extends AppCompatActivity {
         short res[][]=dumDCT.getDataOrigin();*/
 
 
+    }
+
+    public class JPEGcodek extends AsyncTask<Bitmap,Void,Bitmap> {
+
+
+        @Override
+        protected Bitmap doInBackground(Bitmap... bitmaps) {
+            MyImage mi=new MyImage(bitmaps[0]);
+            mi.BitmapToYCbCr();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+
+            DataUnitMatrix bdu =new DataUnitMatrix(mi.getY(),mi.getWidth(),mi.getHeight(),TypeQuantization.luminosity);//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+            DataUnitMatrix adu =new DataUnitMatrix(bdu.getDataDCT(),bdu.getAC(),bdu.getWidth(),bdu.getHeight(),TypeQuantization.luminosity);//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+
+            MyImage af=new MyImage(adu.getWidth(),adu.getHeight(),adu.getDataOrigin(),mi.getCb(),mi.getCr());//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+            af.FromYBRtoRGB();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+            af.FromRGBtoBitmap();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+
+            return af.getBitmap();
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+
+            after.setImageBitmap(result);
+
+        }
     }
 }

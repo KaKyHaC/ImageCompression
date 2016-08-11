@@ -19,27 +19,27 @@ public class DataUnit {
     private long AC;
 
    // DataUnit(){}
-    DataUnit(TypeQuantization _tq){tq=_tq;}
+   // DataUnit(TypeQuantization _tq){tq=_tq;}
     DataUnit(short[][] _dateOriginal){
-        for(int i=0;i<SIZEOFBLOCK;i++)
+      /*  for(int i=0;i<SIZEOFBLOCK;i++)
         {
             for(int j=0;j<SIZEOFBLOCK;j++)
             {
                 dateOriginal[i][j]=_dateOriginal[i][j];
             }
-        }
-       // dateOriginal=_dateOriginal;
+        }*/
+        dateOriginal=_dateOriginal;
     }
     DataUnit(long _AC,short[][] _dateDCT ) {
         AC=_AC;
-        for(int i=0;i<SIZEOFBLOCK;i++)
+        /*for(int i=0;i<SIZEOFBLOCK;i++)
         {
             for(int j=0;j<SIZEOFBLOCK;j++)
             {
                 dateDCT[i][j]=_dateDCT[i][j];
             }
-        }
-       // dateDCT=_dateDCT;
+        }*/
+        dateDCT=_dateDCT;
     }
 
 
