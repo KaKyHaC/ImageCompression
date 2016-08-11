@@ -56,6 +56,19 @@ public class MyImage {
         enlCr=new short[cWidth][cHeight];
 
         bitmap= Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_4444);
+
+        FromYBRtoRGB();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+        FromRGBtoBitmap();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+    public MyImage(short[][] r, short[][] g, short[][] b, int width, int height) {
+        R = r;
+        G = g;
+        B = b;
+        Width = width;
+        Height = height;
+
+        bitmap= Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_4444);
+        FromRGBtoBitmap();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     void BitmapToYCbCr(){

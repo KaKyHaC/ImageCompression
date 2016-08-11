@@ -72,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-            MyImage af=new MyImage(aduY.getWidth(),aduY.getHeight(),aduY.getDataOrigin(),aduB.getDataOrigin(),aduR.getDataOrigin());//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
-            af.FromYBRtoRGB();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
-            af.FromRGBtoBitmap();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+           // MyImage af=new MyImage(aduY.getWidth(),aduY.getHeight(),aduY.getDataOrigin(),aduB.getDataOrigin(),aduR.getDataOrigin());//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+            MyImage af=new MyImage(aduY.getDataOrigin(),aduB.getDataOrigin(),aduR.getDataOrigin(),mi.getWidth(),mi.getHeight());
+
 
             return af.getBitmap();
 
