@@ -31,25 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-/*
-        int xyi;
-        xyi=10;
-        Random rand=new Random();
-        short[][] bt=new short[xyi][xyi];
-        for(int i=0;i<xyi;i++)
-        {
-            for(int j=0;j<xyi;j++)
-            {
-                int ran=rand.nextInt(255);
-                bt[i][j]=(short)(ran);
-            }
-        }
-
-
-        DataUnitMatrix dumOriginal=new DataUnitMatrix(bt,xyi,xyi,TypeQuantization.luminosity);
-        DataUnitMatrix dumDCT=new DataUnitMatrix(dumOriginal.getDataDCT(),dumOriginal.getAC(),xyi,xyi,dumOriginal.getTq());
-        short res[][]=dumDCT.getDataOrigin();*/
-
 
     }
 
@@ -60,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         protected Bitmap doInBackground(Bitmap... bitmaps) {
             MyImage mi=new MyImage(bitmaps[0]);
             mi.BitmapToYCbCr();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+          //  mi.PixelEnlargement();
 
             DataUnitMatrix bduY = new DataUnitMatrix(mi.getY(),mi.getWidth(),mi.getHeight(),TypeQuantization.luminosity);//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
             DataUnitMatrix aduY = new DataUnitMatrix(bduY.getDataDCT(),bduY.getAC(),bduY.getWidth(),bduY.getHeight(),TypeQuantization.luminosity);//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -73,16 +55,10 @@ public class MainActivity extends AppCompatActivity {
 
 
             MyImage af=new MyImage(aduY.getWidth(),aduY.getHeight(),aduY.getDataOrigin(),aduB.getDataOrigin(),aduR.getDataOrigin());//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
+          //  af.PixelRestoration();
             af.FromYBRtoRGB();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
             af.FromRGBtoBitmap();//TODO optimization !!!!!!!!!!!!!!!!!!!!!!!!!
 
-           
-            bduY=null;
-            aduY=null;
-            bduB=null;
-            aduB=null;
-            bduR=null;
-            aduR=null;
 
 
 
@@ -96,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
             after.setImageBitmap(result);
+
 
         }
     }
