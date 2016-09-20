@@ -15,65 +15,31 @@ public class DataUnit {
 
     private  TypeQuantization tq;
     private short[][] dateOriginal = new short[SIZEOFBLOCK][SIZEOFBLOCK];
-    private short[][] dateDCT = new short[SIZEOFBLOCK][SIZEOFBLOCK];
-    private long AC;
+    private short[][] dateProcessed = new short[SIZEOFBLOCK][SIZEOFBLOCK];
+   // private long AC;
 
-   // DataUnit(){}
-   // DataUnit(TypeQuantization _tq){tq=_tq;}
+    DataUnit(){}
+    DataUnit(TypeQuantization _tq){tq=_tq;}
     DataUnit(short[][] _dateOriginal){
-      /*  for(int i=0;i<SIZEOFBLOCK;i++)
-        {
-            for(int j=0;j<SIZEOFBLOCK;j++)
-            {
-                dateOriginal[i][j]=_dateOriginal[i][j];
-            }
-        }*/
         dateOriginal=_dateOriginal;
     }
-    DataUnit(long _AC,short[][] _dateDCT ) {
-        AC=_AC;
-        /*for(int i=0;i<SIZEOFBLOCK;i++)
-        {
-            for(int j=0;j<SIZEOFBLOCK;j++)
-            {
-                dateDCT[i][j]=_dateDCT[i][j];
-            }
-        }*/
-        dateDCT=_dateDCT;
-    }
+
 
 
 /*---geters and setters-----*/
     void setValue(short _value,int x,int y){dateOriginal[x][y]=_value;}
-    short getValue(int x,int y){return dateOriginal[x][y];}
+    short getValueProcessed(int x,int y){
+            return dateProcessed[x][y];}
 
-    long getAC(){return AC;}
-    void setAC(long _AC){AC=_AC;}
 
-    long getValueDCT(int x,int y){
-        if(x==0&&y==0)
-            return AC;
-        else
-            return dateDCT[x][y];}
-    void setValueDCT(long _value, int x, int y){
-        if(x==0&&y==0)
-            AC=_value;
-        else
-            dateDCT[x][y]=(short)_value;}
 
-    public short[][] getDateOriginal() {
-        return dateOriginal;
-    }
     public void setDateOriginal(short[][] dateOriginal) {
         this.dateOriginal = dateOriginal;
     }
+    public short[][] getDateProcessed() {
+        return dateProcessed;
+    }
 
-    public short[][] getDateDCT() {
-        return dateDCT;
-    }
-    public void setDateDCT(short[][] dateDCT) {
-        this.dateDCT = dateDCT;
-    }
 
     public TypeQuantization getTq() {
         return tq;
@@ -103,7 +69,7 @@ public class DataUnit {
                     }
                 }
                 res*=sum;
-                setValueDCT((long)res,i,j);
+                dateProcessed[i][j]=(short)res;
                 /*if(i==0&&j==0)
                     AC=(long)res;
                 else if (res<256&&res>-256)
@@ -127,46 +93,46 @@ public class DataUnit {
                     {
                         double Ci=(i==0)?1.0/Math.sqrt(2.0):1.0;
                         double Cj=(j==0)?1.0/Math.sqrt(2.0):1.0;
-                        double buf=Ci*Cj*getValueDCT(i,j)*Cosine.getCos(x,y,i,j);
+                        double buf=Ci*Cj*dateOriginal[i][j]*Cosine.getCos(x,y,i,j);
                         sum+=buf;
                     }
                 }
-                dateOriginal[x][y]=(short)(0.25*sum);
+                dateProcessed[x][y]=(short)(0.25*sum);
             }
         }
     }
 
-    void directQuantization(TypeQuantization _tq){
+    private void directQuantization(TypeQuantization _tq){
 
         if(_tq==TypeQuantization.luminosity)
         for(int i=0;i< SIZEOFBLOCK;i++)
             for(int j=0;j<SIZEOFBLOCK;j++)
             {
-                dateDCT[i][j]/=QuantizationTable.getLuminosity(i,j);
+                dateProcessed[i][j]/=QuantizationTable.getLuminosity(i,j);
             }
         else if(_tq==TypeQuantization.Chromaticity)
             for(int i=0;i< SIZEOFBLOCK;i++)
                 for(int j=0;j<SIZEOFBLOCK;j++)
                 {
-                    dateDCT[i][j]/=QuantizationTable.getChromaticity(i,j);
+                    dateProcessed[i][j]/=QuantizationTable.getChromaticity(i,j);
                 }
 
     }
     void directQuantization(){directQuantization(tq);}
 
-    void reverseQuantization(TypeQuantization _tq){
+    private void reverseQuantization(TypeQuantization _tq){
 
         if(_tq==TypeQuantization.luminosity)
             for(int i=0;i< SIZEOFBLOCK;i++)
                 for(int j=0;j<SIZEOFBLOCK;j++)
                 {
-                    dateDCT[i][j]*=QuantizationTable.getLuminosity(i,j);
+                    dateProcessed[i][j]*=QuantizationTable.getLuminosity(i,j);
                 }
         else if(_tq==TypeQuantization.Chromaticity)
             for(int i=0;i< SIZEOFBLOCK;i++)
                 for(int j=0;j<SIZEOFBLOCK;j++)
                 {
-                    dateDCT[i][j]*=QuantizationTable.getChromaticity(i,j);
+                    dateProcessed[i][j]*=QuantizationTable.getChromaticity(i,j);
                 }
 
     }
