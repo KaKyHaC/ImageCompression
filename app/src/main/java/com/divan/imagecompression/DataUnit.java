@@ -138,7 +138,7 @@ public class DataUnit {
     }
     void reverseQuantization(){reverseQuantization(tq);}
 
-    //TODO обопщенно позоционное кодирование
+    // обопщенно позоционное кодирование
 
 
 

@@ -14,23 +14,7 @@ enum  State {RGB,YBR,Yenl,bitmap,DCT};
 
 public class MyImage {
 
-    class Matrix
-    {
-        protected short [][] a,b,c;
-        int Width,Height;
-        protected State state;
 
-        public Matrix(int width, int height) {
-            Width = width;
-            Height = height;
-
-            a=new short[width][height];
-            b=new short[width][height];
-            c=new short[width][height];
-
-
-        }
-    }
 
     private Matrix matrix;
 
@@ -145,6 +129,7 @@ public class MyImage {
                 g=(short)(Y[i][j]-0.34414*(Cb[i][j]-128)-0.71414*(Cr[i][j]-128));
                 b=(short)(Y[i][j]+1.772*(Cb[i][j]-128));
 
+                if(g<0)g=0;//new
                 if(r<0)r=0;
                 if(b<0)b=0;
                 R[i][j]=(short)r;
@@ -326,4 +311,22 @@ public class MyImage {
         System.gc();
     }
 
+}
+
+ class Matrix
+{
+    protected short [][] a,b,c;
+    int Width,Height;
+    protected State state;
+
+    public Matrix(int width, int height) {
+        Width = width;
+        Height = height;
+
+        a=new short[width][height];
+        b=new short[width][height];
+        c=new short[width][height];
+
+
+    }
 }

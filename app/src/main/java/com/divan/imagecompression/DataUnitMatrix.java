@@ -47,9 +47,25 @@ public class DataUnitMatrix {
     }
 
 
+    private void preProsses()
+    {
+        for (int i = 0; i < duWidth; i++) {
+            for (int j = 0; j < duHeight; j++) {
+
+                int curX=i * DataUnit.SIZEOFBLOCK ;
+                int curY=j * DataUnit.SIZEOFBLOCK ;
+                if(i!=0&&j!=0)
+                    dataOrigin[curX][curY]=(short)(dataOrigin[0][0]-dataOrigin[curX][curY]);
+            }
+        }
+    }
+
+
     public void dataProcessing() {
         short[][] buf = new short[DataUnit.SIZEOFBLOCK][DataUnit.SIZEOFBLOCK];
         DataUnit DU=new DataUnit(tq);
+        if(state==State.DCT)
+            preProsses();
         for (int i = 0; i < duWidth; i++) {
             for (int j = 0; j < duHeight; j++) {
 
@@ -65,12 +81,15 @@ public class DataUnitMatrix {
                     }
                 }
                 DU.setDateOriginal(buf);
+                //TODO is Quantization
                 if(state==State.YBR) {
 
                     DU.directDCT();
+                    DU.directQuantization();
                 }
                 else if(state==State.DCT)
                 {
+                    DU.reverseQuantization();
                     DU.reverseDCT();
                 }
                 //-------------------directQuantization
@@ -87,6 +106,8 @@ public class DataUnitMatrix {
 
             }
         }
+        if(state==State.YBR)
+            preProsses();
         if(state==State.YBR) {
 
             state=State.DCT;

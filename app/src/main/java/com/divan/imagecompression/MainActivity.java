@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         pB.setMax(100);
 
         Bitmap bmOriginal = BitmapFactory.decodeResource(getResources(),
-                R.drawable.nature);
+                R.drawable.kiev);
         befor.setImageBitmap(bmOriginal);
 //async <code></code>
 
@@ -57,10 +57,23 @@ public class MainActivity extends AppCompatActivity {
             BoxOfDUM bodum=new BoxOfDUM(mi.getYenlMatrix());
             publishProgress(10);
             bodum.dataProcessing();
+            publishProgress(30);
+
+            //write to file
+
+
+            ApplicationOPC AppOPC=ApplicationOPC.getInstance();
+
+            AppOPC.FromDCTtoFile(bodum.getMatrix(),"test");
+
+            Matrix FFTM=AppOPC.FromFileToMatrix("test");
+
+            BoxOfDUM bodum1=new BoxOfDUM(FFTM);
+
             publishProgress(50);
-            bodum.dataProcessing();
+            bodum1.dataProcessing();
             publishProgress(90);
-            MyImage af=new MyImage(bodum.getMatrix());
+            MyImage af=new MyImage(bodum1.getMatrix());
 
 
 
