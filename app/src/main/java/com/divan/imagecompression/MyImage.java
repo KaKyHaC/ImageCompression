@@ -52,7 +52,7 @@ public class MyImage {
         System.gc();
     }
 
-    MyImage(Bitmap _b){
+    public MyImage(Bitmap _b){
         bitmap=_b;
 
 

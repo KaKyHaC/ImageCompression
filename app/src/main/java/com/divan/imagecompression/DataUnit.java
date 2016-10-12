@@ -135,6 +135,7 @@ public class DataUnit {
                     dateProcessed[i][j]*=QuantizationTable.getChromaticity(i,j);
                 }
 
+
     }
     void reverseQuantization(){reverseQuantization(tq);}
 
