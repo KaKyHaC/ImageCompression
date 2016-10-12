@@ -11,25 +11,12 @@ public class BoxOfDUM {
 
     public BoxOfDUM(Matrix matrix) {
         this.matrix = matrix;
-
-        if(matrix.state==State.YBR) {
-            a=new DataUnitMatrix(matrix.a,matrix.Width,matrix.Height,matrix.state,TypeQuantization.luminosity);
-            b = new DataUnitMatrix(matrix.b, matrix.Width, matrix.Height, matrix.state, TypeQuantization.Chromaticity);
-            c = new DataUnitMatrix(matrix.c, matrix.Width, matrix.Height, matrix.state, TypeQuantization.Chromaticity);
-        }
-        else if(matrix.state==State.Yenl)
-        {
+        if(matrix.state==State.Yenl)//new code . Does it is needed ?
             matrix.state=State.YBR;
-            a=new DataUnitMatrix(matrix.a,matrix.Width,matrix.Height,matrix.state,TypeQuantization.luminosity);
-            b = new DataUnitMatrix(matrix.b, matrix.Width/2, matrix.Height/2, matrix.state, TypeQuantization.Chromaticity);
-            c = new DataUnitMatrix(matrix.c, matrix.Width/2, matrix.Height/2, matrix.state, TypeQuantization.Chromaticity);
-        }
-        // constructor DCT (complite)
-        else if(matrix.state==State.DCT){
-            a=new DataUnitMatrix(matrix.a,matrix.a.length,matrix.a[0].length,matrix.state,TypeQuantization.luminosity);
-            b = new DataUnitMatrix(matrix.b, matrix.b.length, matrix.b[0].length, matrix.state, TypeQuantization.Chromaticity);
-            c = new DataUnitMatrix(matrix.c, matrix.c.length, matrix.c[0].length, matrix.state, TypeQuantization.Chromaticity);
-        }
+            a=new DataUnitMatrix(matrix.a,matrix.a.length,matrix.a[0].length,matrix.state,TypeQuantization.luminosity,matrix.qs);
+            b = new DataUnitMatrix(matrix.b, matrix.b.length, matrix.b[0].length, matrix.state, TypeQuantization.Chromaticity,matrix.qs);
+            c = new DataUnitMatrix(matrix.c, matrix.c.length, matrix.c[0].length, matrix.state, TypeQuantization.Chromaticity,matrix.qs);
+
     }
 
     public void dataProcessing() {

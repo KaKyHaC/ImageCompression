@@ -315,6 +315,8 @@ public class MyImage {
 
  class Matrix
 {
+    enum QuantizationState {Without,First}
+    public QuantizationState qs=QuantizationState.Without;
     protected short [][] a,b,c;
     int Width,Height;
     protected State state;

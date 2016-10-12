@@ -16,14 +16,16 @@ public class DataUnitMatrix {
     private int Width, Height;
     private int duWidth, duHeight;
     private TypeQuantization tq;
+    private com.divan.imagecompression.Matrix.QuantizationState qs;
 
 
-    public DataUnitMatrix(short[][] dataOrigin, int width, int height,State state, TypeQuantization tq) {
+    public DataUnitMatrix(short[][] dataOrigin, int width, int height, State state, TypeQuantization tq, com.divan.imagecompression.Matrix.QuantizationState qs) {
         this.dataOrigin = dataOrigin;
         dataProcessed=dataOrigin;
         Width = width;
         Height = height;
         this.tq = tq;
+        this.qs=qs;
 
         this.state=state;
         sizeCalculate();
@@ -85,11 +87,13 @@ public class DataUnitMatrix {
                 if(state==State.YBR) {
 
                     DU.directDCT();
-                    DU.directQuantization();
+                    if(qs== com.divan.imagecompression.Matrix.QuantizationState.First)
+                     DU.directQuantization();
                 }
                 else if(state==State.DCT)
                 {
-                    DU.reverseQuantization();
+                    if(qs== com.divan.imagecompression.Matrix.QuantizationState.First)
+                      DU.reverseQuantization();
                     DU.reverseDCT();
                 }
                 //-------------------directQuantization

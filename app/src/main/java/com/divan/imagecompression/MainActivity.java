@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,13 +18,16 @@ public class MainActivity extends AppCompatActivity {
 
     public ImageView after,befor;
     public ProgressBar pB;
+    TextView tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        after=(ImageView)findViewById(R.id.imageView2);
+
         befor=(ImageView)findViewById(R.id.imageView);
+        after=befor;
+        tv=(TextView)findViewById(R.id.textView);
         pB=(ProgressBar)findViewById(R.id.progressBar);
         pB.setMax(100);
 
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
+/*
     public class JPEGcodek extends AsyncTask<Bitmap,Integer,Bitmap> {
 
         @Override
@@ -105,17 +109,30 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
+*/
     public class FromBMPtoFile extends AsyncTask<String,Integer,String> {
 
         final String DIR_SD = "ImageCompresion";
         final String LOG_TAG = "myLogs";
 
+        public void  Update(int val){
+            publishProgress(val);
+        }
+
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
 
 
+
+
             pB.setProgress(values[0]);
+            switch (values[0]){
+                case 10:tv.setText("Преобразование в цветность-яркость");break;
+                case 20:tv.setText("ДКП");break;
+                case 50:tv.setText("ОПК");break;
+                case 70:tv.setText("запись в файл");break;
+                case 100:tv.setText("готово");break;
+            }
 
         }
         @Override
@@ -136,7 +153,13 @@ public class MainActivity extends AppCompatActivity {
             //mi.getYenlMatrix();
 
 
-            BoxOfDUM bodum=new BoxOfDUM(mi.getYenlMatrix());
+            publishProgress(10);
+            Matrix matrix=mi.getYenlMatrix();
+
+    /*        if(true)//TODO Qantization type
+                matrix.qs= Matrix.QuantizationState.First;*/
+
+            BoxOfDUM bodum=new BoxOfDUM(matrix);
             publishProgress(20);
             bodum.dataProcessing();
             publishProgress(50);
@@ -146,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
             ApplicationOPC AppOPC=ApplicationOPC.getInstance();
 
-            AppOPC.FromDCTtoFile(bodum.getMatrix(),strings[0]+"OPC");
+            AppOPC.FromDCTtoFile(this,bodum.getMatrix(),strings[0]+"OPC");
             publishProgress(100);
             return null;
         }
@@ -165,11 +188,23 @@ public class MainActivity extends AppCompatActivity {
         final String DIR_SD = "ImageCompresion";
         final String LOG_TAG = "myLogs";
 
+        public void Update(int val){
+            publishProgress(val);
+        }
+
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
 
 
             pB.setProgress(values[0]);
+            switch (values[0]){
+                case 10:tv.setText("Считывание из файла");break;
+                case 30:tv.setText("ОПК");break;
+                case 50:tv.setText("обратное ДКП");break;
+                case 70:tv.setText("из ДКП в битмап");break;
+                case 90:tv.setText("сохранение битмапа в ПНГ");break;
+                case 100:tv.setText("готово");break;
+            }
 
         }
         @Override
@@ -186,14 +221,18 @@ public class MainActivity extends AppCompatActivity {
             ApplicationOPC AppOPC=ApplicationOPC.getInstance();
 
             publishProgress(10);
-            Matrix FFTM=AppOPC.FromFileToMatrix(strings[0]+"OPC");
-            publishProgress(20);
+            Matrix FFTM=AppOPC.FromFileToMatrix(this,strings[0]+"OPC");
+
+           /* if(true)//TODO Qantization type
+               FFTM.qs= Matrix.QuantizationState.First;
+*/
+            publishProgress(50);
 
             BoxOfDUM bodum1=new BoxOfDUM(FFTM);
 
-            publishProgress(20);
-            bodum1.dataProcessing();
             publishProgress(50);
+            bodum1.dataProcessing();
+            publishProgress(70);
             MyImage af=new MyImage(bodum1.getMatrix());
 
 
