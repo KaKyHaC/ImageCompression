@@ -3,7 +3,7 @@ package com.divan.imagecompression;
 /**
  * Created by Димка on 07.08.2016.
  */
-public class Cosine {
+public class Cosine {//singelton
     final private static int SIZEOFBLOCK=8;
 
     private static Cosine instance=new Cosine();

@@ -18,38 +18,20 @@ public class DataUnit {
     private short[][] dateProcessed = new short[SIZEOFBLOCK][SIZEOFBLOCK];
    // private long AC;
 
-    DataUnit(){}
+
     DataUnit(TypeQuantization _tq){tq=_tq;}
-    DataUnit(short[][] _dateOriginal){
-        dateOriginal=_dateOriginal;
-    }
-
-
 
 /*---geters and setters-----*/
-    void setValue(short _value,int x,int y){dateOriginal[x][y]=_value;}
-    short getValueProcessed(int x,int y){
+
+    public short getValueProcessed(int x,int y){
             return dateProcessed[x][y];}
-
-
-
     public void setDateOriginal(short[][] dateOriginal) {
         this.dateOriginal = dateOriginal;
     }
-    public short[][] getDateProcessed() {
-        return dateProcessed;
-    }
 
-
-    public TypeQuantization getTq() {
-        return tq;
-    }
-    public void setTq(TypeQuantization tq) {
-        this.tq = tq;
-    }
 
     /*-------main metode---------*/
-    void directDCT() {
+    public void directDCT() {
         for(int i=0;i<SIZEOFBLOCK;i++)
         {
             for(int j=0;j<SIZEOFBLOCK;j++)
@@ -80,7 +62,7 @@ public class DataUnit {
             }
         }
     }
-    void reverseDCT() {
+    public void reverseDCT() {
         for(int x=0;x<SIZEOFBLOCK;x++)
         {
             for(int y=0;y<SIZEOFBLOCK;y++)
@@ -118,7 +100,7 @@ public class DataUnit {
                 }
 
     }
-    void directQuantization(){directQuantization(tq);}
+    public void directQuantization(){directQuantization(tq);}
 
     private void reverseQuantization(TypeQuantization _tq){
 
@@ -137,7 +119,7 @@ public class DataUnit {
 
 
     }
-    void reverseQuantization(){reverseQuantization(tq);}
+    public void reverseQuantization(){reverseQuantization(tq);}
 
     // обопщенно позоционное кодирование
 

@@ -52,12 +52,12 @@ public class MyImage {
         System.gc();
     }
 
-    public MyImage(Bitmap _b){
+    public MyImage(Bitmap _b,Flag flag){
         bitmap=_b;
 
 
 
-        matrix=new Matrix(bitmap.getWidth(),bitmap.getHeight());
+        matrix=new Matrix(bitmap.getWidth(),bitmap.getHeight(),flag);
         matrix.state=State.bitmap;
         Factory();
 
@@ -315,13 +315,14 @@ public class MyImage {
 
  class Matrix
 {
-    enum QuantizationState {Without,First}
-    public QuantizationState qs=QuantizationState.Without;
+
+    Flag f;
     protected short [][] a,b,c;
     int Width,Height;
     protected State state;
 
-    public Matrix(int width, int height) {
+    public Matrix(int width, int height,Flag flag) {
+        this.f=flag;
         Width = width;
         Height = height;
 

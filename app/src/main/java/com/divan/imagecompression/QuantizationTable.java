@@ -3,7 +3,7 @@ package com.divan.imagecompression;
 /**
  * Created by Димка on 08.08.2016.
  */
-public class QuantizationTable {
+public class QuantizationTable {//singelton
 
     private static final int SIZEOFTABLE = 8;
     private static QuantizationTable instance=new QuantizationTable();

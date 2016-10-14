@@ -16,25 +16,22 @@ public class DataUnitMatrix {
     private int Width, Height;
     private int duWidth, duHeight;
     private TypeQuantization tq;
-    private com.divan.imagecompression.Matrix.QuantizationState qs;
+    private Flag flag;
 
 
-    public DataUnitMatrix(short[][] dataOrigin, int width, int height, State state, TypeQuantization tq, com.divan.imagecompression.Matrix.QuantizationState qs) {
+    public DataUnitMatrix(short[][] dataOrigin, int width, int height, State state, TypeQuantization tq,Flag flag) {
         this.dataOrigin = dataOrigin;
         dataProcessed=dataOrigin;
         Width = width;
         Height = height;
         this.tq = tq;
-        this.qs=qs;
+        this.flag=flag;
 
         this.state=state;
         sizeCalculate();
 
 
     }
-
-
-
     private void sizeCalculate() {
         duWidth = Width / DataUnit.SIZEOFBLOCK;
         duHeight = Height / DataUnit.SIZEOFBLOCK;
@@ -49,8 +46,7 @@ public class DataUnitMatrix {
     }
 
 
-    private void preProsses()
-    {
+    private void preProsses() {
         for (int i = 0; i < duWidth; i++) {
             for (int j = 0; j < duHeight; j++) {
 
@@ -61,8 +57,6 @@ public class DataUnitMatrix {
             }
         }
     }
-
-
     public void dataProcessing() {
         short[][] buf = new short[DataUnit.SIZEOFBLOCK][DataUnit.SIZEOFBLOCK];
         DataUnit DU=new DataUnit(tq);
@@ -87,12 +81,12 @@ public class DataUnitMatrix {
                 if(state==State.YBR) {
 
                     DU.directDCT();
-                    if(qs== com.divan.imagecompression.Matrix.QuantizationState.First)
+                    if(flag.getQuantization()== Flag.QuantizationState.First)
                      DU.directQuantization();
                 }
                 else if(state==State.DCT)
                 {
-                    if(qs== com.divan.imagecompression.Matrix.QuantizationState.First)
+                    if(flag.getQuantization()== Flag.QuantizationState.First)
                       DU.reverseQuantization();
                     DU.reverseDCT();
                 }
@@ -123,25 +117,22 @@ public class DataUnitMatrix {
     }
 
 
-
+/*
     public int getWidth() {
         return Width;
     }
-
     public int getHeight() {
         return Height;
     }
-
-
     public short[][] getDataProcessed() {
         return dataProcessed;
     }
-
     public TypeQuantization getTq() {
         return tq;
     }
-
+    */
     public State getState() {
         return state;
     }
+
 }
