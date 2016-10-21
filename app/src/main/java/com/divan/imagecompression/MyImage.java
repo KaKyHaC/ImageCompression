@@ -132,6 +132,10 @@ public class MyImage {
                 if(g<0)g=0;//new
                 if(r<0)r=0;
                 if(b<0)b=0;
+
+                if(r>255)r=255;
+                if(g>255)g=255;
+                if(b>255)b=255;
                 R[i][j]=(short)r;
                 G[i][j]=(short)g;
                 B[i][j]=(short)b;

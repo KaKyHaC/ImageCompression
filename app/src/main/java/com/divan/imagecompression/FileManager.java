@@ -97,7 +97,7 @@ public class FileManager extends ListActivity  {
             for(int i=path.length()-3;i<path.length();i++)
                 type.append(path.charAt(i));
 
-            if(type.toString().equals("BMP")||type.toString().equals("bar")||type.toString().equals("bmp"))
+            if(type.toString().equals("BMP")||type.toString().equals("bar")||type.toString().equals("bmp")||path.charAt(path.length()-4)!='.')
               this.directoryEntries.add(file.getAbsolutePath());
         }
 

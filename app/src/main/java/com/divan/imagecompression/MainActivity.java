@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tv;
     Flag f;
     Intent intentFM;
-    String path,name,type;
+    String path,name,type,PathAndName;
     FromBMPtoFile fromBMP;
     FromFileToBMP fromFile;
     Chronometer chronometer;
@@ -75,8 +75,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        swNo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                f.setDC(b);
+            }
+        });
+
         swFile.setChecked(true);
-        swQuan.setChecked(true);
+      //  swQuan.setChecked(true);
+        swNo.setChecked(true);
 
         intentFM = new Intent(this,FileManager.class);
         bPath.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     bStar.setClickable(false);
                     bPath.setClickable(false);
                     fromBMP=new FromBMPtoFile();
-                    fromBMP.execute(name,f.toString());
+                    fromBMP.execute(PathAndName,f.toString());
                 }
                 else if(type.equals("bar")){
                     chronometer.setBase(SystemClock.elapsedRealtime());
@@ -106,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     bStar.setClickable(false);
                     bPath.setClickable(false);
                     fromFile=new FromFileToBMP();
-                    fromFile.execute(name);
+                    fromFile.execute(PathAndName);
                 }
 
             }
@@ -154,6 +162,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         after.setImageBitmap( BitmapFactory.decodeFile(path));
         name=getNameFile(path);
         type=getTypeFile(path);
+        PathAndName=getPathAndName(path);
+        tv.setText(name+'.'+type);
     }
 
 
@@ -185,15 +195,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected String doInBackground(String... strings) {
 
-            File sdPath = Environment.getExternalStorageDirectory();
+/*            File sdPath = Environment.getExternalStorageDirectory();
             // добавляем свой каталог к пути
             sdPath = new File(sdPath.getAbsolutePath() + "/" + DIR_SD);
             // создаем каталог
             sdPath.mkdirs();
             // формируем объект File, который содержит путь к файлу
-            File sdFile = new File(sdPath, strings[0]+".bmp");
+            File sdFile = new File(sdPath, strings[0]+".bmp");*/
 
-            Bitmap bmp= BitmapFactory.decodeFile(sdFile.toString());
+            Bitmap bmp= BitmapFactory.decodeFile(strings[0]+".bmp");
 
 
             byte flag=new Byte(strings[1]);
@@ -258,18 +268,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected Bitmap doInBackground(String... strings) {
 
-            File sdPath = Environment.getExternalStorageDirectory();
+           /* File sdPath = Environment.getExternalStorageDirectory();
             // добавляем свой каталог к пути
             sdPath = new File(sdPath.getAbsolutePath() + "/" + DIR_SD);
             // создаем каталог
             sdPath.mkdirs();
             // формируем объект File, который содержит путь к файлу
-            File sdFile = new File(sdPath, strings[0]);
+            File sdFile = new File(sdPath, strings[0]);*/
 
             ApplicationOPC AppOPC=ApplicationOPC.getInstance();
 
             publishProgress(10);
-            Matrix FFTM=AppOPC.FromFileToMatrix(this,strings[0]);
+            Matrix FFTM=AppOPC.FromFileToMatrix(this,strings[0]);//TODO path
 
            /* if(true)//TODO Qantization type
                FFTM.qs= Matrix.QuantizationState.First;
@@ -289,9 +299,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bitmap res=af.getBitmap();
             publishProgress(90);
 
+
+
             try{
-                FileOutputStream fOut = new FileOutputStream(sdFile+"res.bmp");
-                res.compress(Bitmap.CompressFormat.PNG,100,fOut);
+                AndroidBmpUtil.save(res,strings[0]+"res.bmp");
+                /*FileOutputStream fOut = new FileOutputStream(strings[0]+"res.bmp");
+                res.compress(Bitmap.CompressFormat.PNG,100,fOut);*/
             }catch (IOException r){
 
             }
@@ -325,6 +338,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for(int i=path.length()-3;i<path.length();i++)
             type.append(path.charAt(i));
         return type.toString();
+    }
+    private String getPathAndName(String path){
+        StringBuilder buf=new StringBuilder();
+        for(int i=0;i<path.length()-4;i++)
+            buf.append(path.charAt(i));
+        return buf.toString();
     }
 }
 

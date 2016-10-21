@@ -32,13 +32,12 @@ public class DataUnit {
 
     /*-------main metode---------*/
     public void directDCT() {
+       // minus128();//test
         for(int i=0;i<SIZEOFBLOCK;i++)
         {
             for(int j=0;j<SIZEOFBLOCK;j++)
             {
-                double Ci=(i==0)?1.0/Math.sqrt(2.0):1.0;
-                double Cj=(j==0)?1.0/Math.sqrt(2.0):1.0;
-                double res=(1.0/Math.sqrt(2.0*SIZEOFBLOCK))*Ci*Cj;
+                double res=Cosine.getDCTres(i,j);
                 double sum=0.0;
                 for(int x=0;x<SIZEOFBLOCK;x++)
                 {
@@ -62,7 +61,10 @@ public class DataUnit {
             }
         }
     }
+
     public void reverseDCT() {
+        double OneDivadMathsqrt2=1.0/Math.sqrt(2.0);
+
         for(int x=0;x<SIZEOFBLOCK;x++)
         {
             for(int y=0;y<SIZEOFBLOCK;y++)
@@ -73,8 +75,8 @@ public class DataUnit {
                 {
                     for(int j=0;j<SIZEOFBLOCK;j++)
                     {
-                        double Ci=(i==0)?1.0/Math.sqrt(2.0):1.0;
-                        double Cj=(j==0)?1.0/Math.sqrt(2.0):1.0;
+                        double Ci=(i==0)?OneDivadMathsqrt2:1.0;
+                        double Cj=(j==0)?OneDivadMathsqrt2:1.0;
                         double buf=Ci*Cj*dateOriginal[i][j]*Cosine.getCos(x,y,i,j);
                         sum+=buf;
                     }
@@ -82,6 +84,7 @@ public class DataUnit {
                 dateProcessed[x][y]=(short)(0.25*sum);
             }
         }
+       // plus128();//
     }
 
     private void directQuantization(TypeQuantization _tq){
@@ -90,13 +93,15 @@ public class DataUnit {
         for(int i=0;i< SIZEOFBLOCK;i++)
             for(int j=0;j<SIZEOFBLOCK;j++)
             {
-                dateProcessed[i][j]/=QuantizationTable.getLuminosity(i,j);
+                //dateProcessed[i][j]/=QuantizationTable.getSmart(1,i,j);
+               dateProcessed[i][j]/=QuantizationTable.getLuminosity(i,j);
             }
         else if(_tq==TypeQuantization.Chromaticity)
             for(int i=0;i< SIZEOFBLOCK;i++)
                 for(int j=0;j<SIZEOFBLOCK;j++)
                 {
-                    dateProcessed[i][j]/=QuantizationTable.getChromaticity(i,j);
+                   // dateProcessed[i][j]/=QuantizationTable.getSmart(3,i,j);
+                   // dateProcessed[i][j]/=QuantizationTable.getChromaticity(i,j);
                 }
 
     }
@@ -108,18 +113,35 @@ public class DataUnit {
             for(int i=0;i< SIZEOFBLOCK;i++)
                 for(int j=0;j<SIZEOFBLOCK;j++)
                 {
-                    dateProcessed[i][j]*=QuantizationTable.getLuminosity(i,j);
+                   // dateProcessed[i][j]*=QuantizationTable.getSmart(1,i,j);
+                   dateProcessed[i][j]*=QuantizationTable.getLuminosity(i,j);
                 }
         else if(_tq==TypeQuantization.Chromaticity)
             for(int i=0;i< SIZEOFBLOCK;i++)
                 for(int j=0;j<SIZEOFBLOCK;j++)
                 {
-                    dateProcessed[i][j]*=QuantizationTable.getChromaticity(i,j);
+                   // dateProcessed[i][j]*=QuantizationTable.getSmart(3,i,j);
+                    //dateProcessed[i][j]*=QuantizationTable.getChromaticity(i,j);
                 }
 
 
     }
     public void reverseQuantization(){reverseQuantization(tq);}
+
+    private void minus128 (){
+        for(int i=0;i< SIZEOFBLOCK;i++)
+            for(int j=0;j<SIZEOFBLOCK;j++)
+            {
+                dateOriginal[i][j]-=(short)128;
+            }
+    }
+    private void plus128 (){
+        for(int i=0;i< SIZEOFBLOCK;i++)
+            for(int j=0;j<SIZEOFBLOCK;j++)
+            {
+                dateProcessed[i][j]+=(short)128;
+            }
+    }
 
     // обопщенно позоционное кодирование
 
