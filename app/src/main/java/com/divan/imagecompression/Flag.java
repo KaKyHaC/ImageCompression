@@ -5,14 +5,17 @@ package com.divan.imagecompression;
  */
 
 public class Flag {
-    final static int OneFile=16,Enlargement=32,DC=64;
+    final static int OneFile=16,Enlargement=32,DC=64,LongCode=128,GlobalBase=256,Password=512,Steganography=1024,Alignment=2048;
     enum QuantizationState {Without,First};
     enum Encryption{Without,First};
-    byte f;
+    private short f;
 
-    Flag(byte val){
+    Flag (String s){f=Short.decode(s);}
+    Flag(short val){
         f=val;
     }
+    public short getFlag(){return f;}
+
     public QuantizationState getQuantization(){
         byte q=(byte)(f&3);
         if(q==0)
@@ -56,43 +59,57 @@ public class Flag {
     }
 
     public boolean isOneFile(){
-        return (f&OneFile)!=0;
+        return isChecked(OneFile);
     }
     public void setOneFile(boolean o){
-        if(o==true){
-            f|=OneFile;
-        }
-        else {
-            f&=(~OneFile);
-        }
+       setChecked(o,OneFile);
     }
 
     public boolean isEnlargement(){
-        return (f&Enlargement)!=0;
+        return isChecked(Enlargement);
     }
     public void setEnlargement(boolean o){
-        if(o==true){
-            f|=Enlargement;
-        }
-        else {
-            f&=(~Enlargement);
-        }
+       setChecked(o,Enlargement);
     }
 
     public boolean isDC(){
-        return (f&DC)!=0;
+        return isChecked(DC);
     }
     public void setDC(boolean o){
-        if(o==true){
-            f|=DC;
+       setChecked(o,DC);
+    }
+
+    public boolean isLongCode(){return isChecked(LongCode);}
+    public void setLongCode(boolean b){setChecked(b,LongCode);}
+
+    public boolean isGlobalBase(){return isChecked(GlobalBase);}
+    public void setGlobalBase(boolean b){setChecked(b,GlobalBase);}
+
+    public boolean isPassword(){return isChecked(Password);}
+    public void setPassword(boolean b){setChecked(b,Password);}
+
+    public boolean isSteganography(){return isChecked(Steganography);}
+    public void setSteganography(boolean b){setChecked(b,Steganography);}
+
+    public boolean isAlignment(){return isChecked(Alignment);}
+    public void setAlignment(boolean b){setChecked(b,Alignment);}
+
+
+
+    private boolean isChecked(int param){
+        return (f&param)!=0;
+    }
+    private void setChecked(boolean state,int param){
+        if(state==true){
+            f|=param;
         }
         else {
-            f&=(~DC);
+            f&=(~param);
         }
     }
 
     @Override
     public String toString() {
-        return Byte.toString(f);
+        return Short.toString(f);
     }
 }

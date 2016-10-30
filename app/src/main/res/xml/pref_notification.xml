@@ -1,0 +1,51 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- A 'parent' preference, which enables/disables child preferences (below)
+         when checked/unchecked. -->
+    <SwitchPreference
+        android:defaultValue="true"
+        android:title="OneFile"
+        android:key="OneFile"/>
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="Enlargement"
+        android:title="Enlargement" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:title="DC"
+        android:key="DC" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:title="LongCode"
+        android:key="LongCode" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:title="GlobalBase"
+        android:key="GlobalBase" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:title="Alignment"
+        android:key="Alignment" />
+    <EditTextPreference
+        android:inputType="number"
+        android:defaultValue="4"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Hieght of BaseBlock"
+        android:key="Hieght" />
+    <EditTextPreference
+        android:inputType="number"
+        android:defaultValue="4"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Width of BaseBlock"
+        android:key="Width" />
+    <EditTextPreference
+        android:defaultValue="54"
+        android:inputType="number"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Bits per code number"
+        android:key="MAXLONG" />
+
+</PreferenceScreen>

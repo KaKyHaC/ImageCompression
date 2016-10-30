@@ -8,30 +8,47 @@ import java.sql.SQLClientInfoException;
  */
 enum TypeQuantization{luminosity ,Chromaticity};
 
-public class DataUnit {
+public class DataUnit {//singelton
 
     public final static int SIZEOFBLOCK = 8;
 
 
-    private  TypeQuantization tq;
-    private short[][] dateOriginal = new short[SIZEOFBLOCK][SIZEOFBLOCK];
-    private short[][] dateProcessed = new short[SIZEOFBLOCK][SIZEOFBLOCK];
+    private static DataUnit tmp=new DataUnit();
+    private static TypeQuantization tq;
+    private static short[][] dateOriginal ;
+    private static short[][] dateProcessed ;
    // private long AC;
 
+    private DataUnit(){
 
-    DataUnit(TypeQuantization _tq){tq=_tq;}
+    }
+    public static DataUnit getInstanse(){return tmp;}
+
+
 
 /*---geters and setters-----*/
 
-    public short getValueProcessed(int x,int y){
+   /* public short getValueProcessed(int x,int y){
             return dateProcessed[x][y];}
     public void setDateOriginal(short[][] dateOriginal) {
         this.dateOriginal = dateOriginal;
+    }*/
+
+    public static short[][] directDCT(short[][] date){
+        dateOriginal=date;
+        dateProcessed=new short[SIZEOFBLOCK][SIZEOFBLOCK];
+        tmp.directDCT();
+        return dateProcessed;
+    }
+    public static short[][] reverseDCT(short[][] date){
+        dateOriginal=date;
+        dateProcessed=new short[SIZEOFBLOCK][SIZEOFBLOCK];
+        tmp.reverseDCT();
+        return dateProcessed;
     }
 
-
     /*-------main metode---------*/
-    public void directDCT() {
+    private void directDCT() {
        // minus128();//test
         for(int i=0;i<SIZEOFBLOCK;i++)
         {
@@ -61,8 +78,7 @@ public class DataUnit {
             }
         }
     }
-
-    public void reverseDCT() {
+    private void reverseDCT() {
         double OneDivadMathsqrt2=1.0/Math.sqrt(2.0);
 
         for(int x=0;x<SIZEOFBLOCK;x++)
@@ -87,7 +103,8 @@ public class DataUnit {
        // plus128();//
     }
 
-    private void directQuantization(TypeQuantization _tq){
+
+    public static void directQuantization(TypeQuantization _tq){
 
         if(_tq==TypeQuantization.luminosity)
         for(int i=0;i< SIZEOFBLOCK;i++)
@@ -105,9 +122,7 @@ public class DataUnit {
                 }
 
     }
-    public void directQuantization(){directQuantization(tq);}
-
-    private void reverseQuantization(TypeQuantization _tq){
+    public static void reverseQuantization(TypeQuantization _tq){
 
         if(_tq==TypeQuantization.luminosity)
             for(int i=0;i< SIZEOFBLOCK;i++)
@@ -126,7 +141,7 @@ public class DataUnit {
 
 
     }
-    public void reverseQuantization(){reverseQuantization(tq);}
+
 
     private void minus128 (){
         for(int i=0;i< SIZEOFBLOCK;i++)

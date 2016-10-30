@@ -19,6 +19,7 @@ public class DataUnitMatrix {
     private Flag flag;
 
 
+
     public DataUnitMatrix(short[][] dataOrigin, int width, int height, State state, TypeQuantization tq,Flag flag) {
         this.dataOrigin = dataOrigin;
         dataProcessed=dataOrigin;
@@ -29,6 +30,8 @@ public class DataUnitMatrix {
 
         this.state=state;
         sizeCalculate();
+
+
 
 
     }
@@ -57,80 +60,101 @@ public class DataUnitMatrix {
             }
         }
     }
+    private short[][] fillBufferforDU(int i,int j,short[][]buffer){
+        for (int x = 0; x < DataUnit.SIZEOFBLOCK; x++) {
+            for (int y = 0; y < DataUnit.SIZEOFBLOCK; y++) {
+                short value = 0;
+                int curX=i * DataUnit.SIZEOFBLOCK + x;
+                int curY=j * DataUnit.SIZEOFBLOCK + y;
+                if (curX< Width && curY < Height)
+                    value = dataOrigin[curX][curY];
+                buffer[x][y] = value;
+                // DU[i][j].setValue(val,x,y);
+            }
+        }
+        return buffer;
+    }
+    private short[][] MainCode(short[][] buf){
+
+        if(state==State.YBR) {
+
+            if(flag.isAlignment())
+            minus128(buf);
+
+            buf=DataUnit.directDCT(buf);
+
+            if(flag.getQuantization()== Flag.QuantizationState.First)
+                DataUnit.directQuantization(tq);
+        }
+        else if(state==State.DCT)
+        {
+            if(flag.getQuantization()== Flag.QuantizationState.First)
+                DataUnit.reverseQuantization(tq);
+            buf=DataUnit.reverseDCT(buf);
+
+            if(flag.isAlignment())
+            plus128(buf);
+        }
+
+        return buf;
+    }
+    private void fillDateProcessed(int i,int j,short[][]buffer){
+        for (int x = 0; x < DataUnit.SIZEOFBLOCK; x++) {
+            for (int y = 0; y < DataUnit.SIZEOFBLOCK; y++) {
+
+                int curX = i * DataUnit.SIZEOFBLOCK + x;
+                int curY = j * DataUnit.SIZEOFBLOCK + y;
+                if (curX< Width && curY < Height)
+                    dataProcessed[curX][curY] = buffer[x][y];
+            }
+        }
+    }
+
     public void dataProcessing() {
         short[][] buf = new short[DataUnit.SIZEOFBLOCK][DataUnit.SIZEOFBLOCK];
-        DataUnit DU=new DataUnit(tq);
         if(state==State.DCT)
             preProsses();
+
         for (int i = 0; i < duWidth; i++) {
             for (int j = 0; j < duHeight; j++) {
 
-                for (int x = 0; x < DataUnit.SIZEOFBLOCK; x++) {
-                    for (int y = 0; y < DataUnit.SIZEOFBLOCK; y++) {
-                        short value = 0;
-                        int curX=i * DataUnit.SIZEOFBLOCK + x;
-                        int curY=j * DataUnit.SIZEOFBLOCK + y;
-                        if (curX< Width && curY < Height)
-                            value = dataOrigin[curX][curY];
-                        buf[x][y] = value;
-                        // DU[i][j].setValue(val,x,y);
-                    }
-                }
-                DU.setDateOriginal(buf);
-                //TODO is Quantization
-                if(state==State.YBR) {
+                buf=fillBufferforDU(i,j,buf);
 
-                    DU.directDCT();
-                    if(flag.getQuantization()== Flag.QuantizationState.First)
-                     DU.directQuantization();
-                }
-                else if(state==State.DCT)
-                {
-                    if(flag.getQuantization()== Flag.QuantizationState.First)
-                      DU.reverseQuantization();
-                    DU.reverseDCT();
-                }
+                buf=MainCode(buf);
+
                 //-------------------directQuantization
-                for (int x = 0; x < DataUnit.SIZEOFBLOCK; x++) {
-                    for (int y = 0; y < DataUnit.SIZEOFBLOCK; y++) {
-
-                        int curX = i * DataUnit.SIZEOFBLOCK + x;
-                        int curY = j * DataUnit.SIZEOFBLOCK + y;
-                        if (curX< Width && curY < Height)
-                            dataProcessed[curX][curY] = DU.getValueProcessed(x,y);
-                    }
-                }
-
+                fillDateProcessed(i,j,buf);
 
             }
         }
         if(state==State.YBR)
             preProsses();
-        if(state==State.YBR) {
 
+
+        if(state==State.YBR)
             state=State.DCT;
-        }
         else if(state==State.DCT)
-        {
             state=State.YBR;
+
+    }
+
+    private void minus128(short [][] arr){
+        for(int i=0;i<arr.length;i++)
+        {
+            for(int j=0;j<arr[0].length;j++){
+                arr[i][j]-=128;
+            }
+        }
+    }
+    private void plus128(short [][] arr){
+        for(int i=0;i<arr.length;i++)
+        {
+            for(int j=0;j<arr[0].length;j++){
+                arr[i][j]+=128;
+            }
         }
     }
 
-
-/*
-    public int getWidth() {
-        return Width;
-    }
-    public int getHeight() {
-        return Height;
-    }
-    public short[][] getDataProcessed() {
-        return dataProcessed;
-    }
-    public TypeQuantization getTq() {
-        return tq;
-    }
-    */
     public State getState() {
         return state;
     }

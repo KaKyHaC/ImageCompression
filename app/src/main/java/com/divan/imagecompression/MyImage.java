@@ -203,6 +203,34 @@ public class MyImage {
         }
     }
 
+    private void minus128(short [][] arr){
+        for(int i=0;i<arr.length;i++)
+        {
+            for(int j=0;j<arr[0].length;j++){
+                arr[i][j]-=128;
+            }
+        }
+    }
+    private void plus128(short [][] arr){
+        for(int i=0;i<arr.length;i++)
+        {
+            for(int j=0;j<arr[0].length;j++){
+                arr[i][j]+=128;
+            }
+        }
+    }
+
+    private void minus128(){
+        minus128(matrix.a);
+        minus128(matrix.b);
+        minus128(matrix.c);
+    }
+    private void plus128(){
+        plus128(matrix.a);
+        plus128(matrix.b);
+        plus128(matrix.c);
+    }
+
     private void FromRGBtoBitmap(){
         if(matrix.state==State.RGB)
         {
@@ -227,13 +255,6 @@ public class MyImage {
 
 
 
-
-    public int getWidth() {
-        return Width;
-    }
-    public int getHeight() {
-        return Height;
-    }
     public Bitmap getBitmap() {
         switch(matrix.state)
         {
@@ -249,45 +270,7 @@ public class MyImage {
 
         return bitmap;
     }
-    private Matrix getMatrix() {
-        return matrix;
-    }
 
-   /** public Matrix getRGBmatrix(){
-        if(matrix.state==State.RGB)
-        {
-        }
-        else if(matrix.state==State.bitmap)
-        {
-            FromBitmapToRGB();
-        }
-        else if(matrix.state==State.YBR)
-        {
-            FromYBRtoRGB();
-        }
-        else
-        {
-            return null;
-        }
-       return matrix;
-    }*/
-    public Matrix getYBRmatrix(){
-        switch (matrix.state)
-        {
-
-            case RGB: FromRGBtoYBR();
-                break;
-            case YBR:
-                break;
-            case Yenl:PixelRestoration();
-                break;
-            case bitmap:FromBitmapToYCbCr();
-                break;
-            case DCT:return null;
-
-        }
-        return matrix;
-    }
     public Matrix getYenlMatrix()
     {
         switch (matrix.state)

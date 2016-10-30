@@ -99,6 +99,9 @@ public class FileManager extends ListActivity  {
 
             if(type.toString().equals("BMP")||type.toString().equals("bar")||type.toString().equals("bmp")||path.charAt(path.length()-4)!='.')
               this.directoryEntries.add(file.getAbsolutePath());
+            else if(type.toString().equals("jpg")||type.toString().equals("jpeg"))
+                this.directoryEntries.add(file.getAbsolutePath());
+
         }
 
         //create array adapter to show everything
