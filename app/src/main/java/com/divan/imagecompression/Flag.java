@@ -6,14 +6,18 @@ package com.divan.imagecompression;
 
 public class Flag {
     final static int OneFile=16,Enlargement=32,DC=64,LongCode=128,GlobalBase=256,Password=512,Steganography=1024,Alignment=2048;
-    enum QuantizationState {Without,First};
-    enum Encryption{Without,First};
     private short f;
+    ;
 
-    Flag (String s){f=Short.decode(s);}
+    Flag(String s) {
+        f = Short.decode(s);
+    }
+
+    ;
     Flag(short val){
         f=val;
     }
+
     public short getFlag(){return f;}
 
     public QuantizationState getQuantization(){
@@ -25,6 +29,7 @@ public class Flag {
         else
             return null;
     }
+
     public void setQuantization(QuantizationState qs){
 
         switch (qs) {
@@ -45,6 +50,7 @@ public class Flag {
             default: return null;
         }
     }
+
     public void setEncryption(Encryption e){
         switch (e) {
             case Without: f&=(~12);
@@ -61,6 +67,7 @@ public class Flag {
     public boolean isOneFile(){
         return isChecked(OneFile);
     }
+
     public void setOneFile(boolean o){
        setChecked(o,OneFile);
     }
@@ -68,6 +75,7 @@ public class Flag {
     public boolean isEnlargement(){
         return isChecked(Enlargement);
     }
+
     public void setEnlargement(boolean o){
        setChecked(o,Enlargement);
     }
@@ -75,30 +83,35 @@ public class Flag {
     public boolean isDC(){
         return isChecked(DC);
     }
+
     public void setDC(boolean o){
        setChecked(o,DC);
     }
 
     public boolean isLongCode(){return isChecked(LongCode);}
+
     public void setLongCode(boolean b){setChecked(b,LongCode);}
 
     public boolean isGlobalBase(){return isChecked(GlobalBase);}
+
     public void setGlobalBase(boolean b){setChecked(b,GlobalBase);}
 
     public boolean isPassword(){return isChecked(Password);}
+
     public void setPassword(boolean b){setChecked(b,Password);}
 
     public boolean isSteganography(){return isChecked(Steganography);}
+
     public void setSteganography(boolean b){setChecked(b,Steganography);}
 
     public boolean isAlignment(){return isChecked(Alignment);}
+
     public void setAlignment(boolean b){setChecked(b,Alignment);}
-
-
 
     private boolean isChecked(int param){
         return (f&param)!=0;
     }
+
     private void setChecked(boolean state,int param){
         if(state==true){
             f|=param;
@@ -111,5 +124,57 @@ public class Flag {
     @Override
     public String toString() {
         return Short.toString(f);
+    }
+
+    enum QuantizationState {Without, First}
+
+    enum Encryption {Without, First}
+}
+
+class Parameters {
+    static Parameters instanse = new Parameters();
+    private static long MAXLONG = (long) Math.pow(2, 54); // long = 7x8 bits . why ?
+    int n = 4, m = 4;
+    String password = "0";
+    String PathReadMassage = "/sdcard/ImageCompresion/massage.txt";
+    String PathWriteMassage = "/sdcard/ImageCompresion/resultMassage.txt";
+    boolean isSteganography = false;
+    private int BitPerNumber;
+    private int BinaryValOfPos = 1;
+
+    private Parameters() {
+    }
+
+    public static Parameters getInstanse() {
+        return instanse;
+    }
+
+    public static long getMAXLONG() {
+        return instanse.MAXLONG;
+    }
+
+    public static void setMAXLONG(int numberofbits) {
+        instanse.BitPerNumber = numberofbits;
+        if (instanse.BitPerNumber > 0 && instanse.BitPerNumber <= 64)
+            MAXLONG = (long) Math.pow(2, instanse.BitPerNumber);
+    }
+
+    public static void setSize(int n, int m) {
+        instanse.n = n;
+        instanse.m = m;
+    }
+
+    public static String getPasswordFinal() {
+        String cpy = instanse.password;
+        instanse.password = "0";
+        return cpy;
+    }
+
+    public int getBinaryValOfPos() {
+        return BinaryValOfPos;
+    }
+
+    public void setBinaryValOfPos(int posOfSteganogrephy) {
+        BinaryValOfPos = (int) Math.pow(2, posOfSteganogrephy);
     }
 }

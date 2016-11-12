@@ -1,27 +1,28 @@
 package com.divan.imagecompression;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
-import android.net.Uri;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class FileManager extends ListActivity  {
 
 
+    String HomePath;
 
     private List<String> directoryEntries = new ArrayList<String>();
     private File currentDirectory = new File("/");
@@ -30,8 +31,25 @@ public class FileManager extends ListActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_manager);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+
         //browse to root directory
-        browseTo(new File("/sdcard/ImageCompresion"));
+        HomePath = sp.getString("Path", "ImageCompresion");
+
+        File sdPath;
+
+        if (Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            sdPath = Environment.getExternalStorageDirectory();
+        } else {
+            // получаем путь к SD
+            sdPath = Environment.getDataDirectory();
+            // добавляем свой каталог к пути
+        }
+        sdPath = new File(sdPath + "/" + HomePath);
+        sdPath.mkdir();
+
+        browseTo(sdPath);
     }
 
     //browse to parent directory

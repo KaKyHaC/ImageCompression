@@ -1,10 +1,7 @@
 package com.divan.imagecompression;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.provider.Settings;
-import android.view.PixelCopy;
 
 /**
  * Created by Димка on 07.08.2016.
@@ -16,11 +13,8 @@ public class MyImage {
 
 
 
-    private Matrix matrix;
-
-
     private static final int SIZEOFBLOCK = 8;
-
+    private Matrix matrix;
     private int cWidth,cHeight;
     private int Width,Height;
     private Bitmap bitmap;
@@ -29,6 +23,23 @@ public class MyImage {
     private short[][] R,G,B;
     private short[][] Y,Cb,Cr;
     private short[][] enlCb,enlCr;
+
+    public MyImage(Bitmap _b, Flag flag) {
+        bitmap = _b;
+
+
+        matrix = new Matrix(bitmap.getWidth(), bitmap.getHeight(), flag);
+        matrix.state = State.bitmap;
+        Factory();
+
+    }
+
+    MyImage(Matrix matrix) {
+        this.matrix = matrix;
+        Factory();
+
+        bitmap = Bitmap.createBitmap(Width, Height, Bitmap.Config.ARGB_4444);
+    }
 
     //TODO string constructor
     private void Factory()
@@ -50,24 +61,6 @@ public class MyImage {
         cWidth=Width/2;
         cHeight=Height/2;
         System.gc();
-    }
-
-    public MyImage(Bitmap _b,Flag flag){
-        bitmap=_b;
-
-
-
-        matrix=new Matrix(bitmap.getWidth(),bitmap.getHeight(),flag);
-        matrix.state=State.bitmap;
-        Factory();
-
-    }
-
-    MyImage(Matrix matrix) {
-        this.matrix = matrix;
-        Factory();
-
-        bitmap= Bitmap.createBitmap(Width,Height, Bitmap.Config.ARGB_4444);
     }
 
    private void FromBitmapToYCbCr() {
@@ -168,7 +161,7 @@ public class MyImage {
     }
 
     private void PixelEnlargement(){
-        if(matrix.state==State.YBR) {
+        if (matrix.state == State.YBR && matrix.f.isEnlargement()) {
             enlCb=new short[cWidth][cHeight];
             enlCr=new short[cWidth][cHeight];
             for (int i = 0; i < cWidth; i++) {
@@ -186,7 +179,7 @@ public class MyImage {
     }
     private void PixelRestoration() {
 
-        if(matrix.state==State.Yenl) {
+        if (matrix.state == State.Yenl && matrix.f.isEnlargement()) {
             Cb=new short[Width][Height];
             Cr=new short[Width][Height];
             for (int i = 0; i < cWidth; i++) {
@@ -303,10 +296,10 @@ public class MyImage {
  class Matrix
 {
 
-    Flag f;
     protected short [][] a,b,c;
-    int Width,Height;
     protected State state;
+    Flag f;
+    int Width, Height;
 
     public Matrix(int width, int height,Flag flag) {
         this.f=flag;

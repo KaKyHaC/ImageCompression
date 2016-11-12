@@ -4,48 +4,100 @@
          when checked/unchecked. -->
     <SwitchPreference
         android:defaultValue="true"
-        android:title="OneFile"
-        android:key="OneFile"/>
+        android:key="OneFile"
+        android:summary="Сохранять в один файл .bar"
+        android:title="OneFile" />
     <SwitchPreference
         android:defaultValue="true"
         android:key="Enlargement"
+        android:summary="Укрупнение пикселей 2к1"
         android:title="Enlargement" />
     <SwitchPreference
         android:defaultValue="true"
-        android:title="DC"
-        android:key="DC" />
+        android:key="DC"
+        android:summary="Исключать DC из обработки"
+        android:title="DC" />
     <SwitchPreference
         android:defaultValue="true"
-        android:title="LongCode"
-        android:key="LongCode" />
+        android:key="LongCode"
+        android:summary="Использовать фиксированую длинну кода"
+        android:title="LongCode" />
     <SwitchPreference
         android:defaultValue="true"
-        android:title="GlobalBase"
-        android:key="GlobalBase" />
+        android:key="GlobalBase"
+        android:summary="Общие основание для нескольких блоков"
+        android:title="GlobalBase" />
     <SwitchPreference
         android:defaultValue="false"
-        android:title="Alignment"
-        android:key="Alignment" />
+        android:key="Quantization"
+        android:summary="Включить процесс квантования"
+        android:title="Quantization" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="Alignment"
+        android:summary="Выравнивание матриц (-128)"
+        android:title="Alignment" />
     <EditTextPreference
-        android:inputType="number"
         android:defaultValue="4"
+        android:inputType="number"
+        android:key="Hieght"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Hieght of BaseBlock"
-        android:key="Hieght" />
+        android:summary="Количество по высоте блоков с общими основаниями"
+        android:title="Hieght of BaseBlock" />
     <EditTextPreference
-        android:inputType="number"
         android:defaultValue="4"
+        android:inputType="number"
+        android:key="Width"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Width of BaseBlock"
-        android:key="Width" />
+        android:summary="Количество по ширине блоков с общими основаниями"
+        android:title="Width of BaseBlock" />
     <EditTextPreference
         android:defaultValue="54"
         android:inputType="number"
+        android:key="MAXLONG"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Bits per code number"
-        android:key="MAXLONG" />
+        android:summary="Количество бит для кода с фиксированной длинной"
+        android:title="Bits per code number" />
+    <EditTextPreference
+        android:defaultValue="ImageCompresion"
+        android:key="Path"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary='Папка открывающиеся по нажатию на "путь"'
+        android:title="Home Folder" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="Steganography"
+        android:title="Steganography" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="mark"
+        android:summary="Автоматически считывать сообщение при декодировании"
+        android:title="Leave a mark" />
+    <EditTextPreference
+        android:defaultValue="/sdcard/ImageCompresion/massage.txt"
+        android:key="PathReadMassage"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="Путь к файлу с исходным сообщением"
+        android:title="PathReadMassage" />
+    <EditTextPreference
+        android:defaultValue="/sdcard/ImageCompresion/resultMassage.txt"
+        android:key="PathWriteMassage"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="Путь куда записывать считаное сообщение"
+        android:title="PathWriteMassage" />
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/list_preference_entry_values"
+        android:entryValues="@array/list_preference_entry_values"
+        android:key="bitPos"
+        android:summary="Позиция бита в который будет записано сообщение"
+        android:title="Encoded bit position" />
 
 </PreferenceScreen>
