@@ -170,6 +170,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         param = Parameters.getInstanse();
     }
 
+    private void SetStartState() {
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean("Steganography", false);
+        editor.putBoolean("mark", false);
+        editor.putBoolean("Alignment", false);
+        editor.putBoolean("GlobalBase", true);
+        editor.putBoolean("DC", true);
+        editor.putBoolean("LongCode", true);
+        editor.putBoolean("Enlargement", true);
+        editor.putBoolean("OneFile", true);
+        editor.putBoolean("Quantization", false);
+        editor.putString("Width", "4");
+        editor.putString("Hieght", "4");
+        editor.putString("PathReadMassage", "/sdcard/ImageCompresion/massage.txt");
+        editor.putString("PathWriteMassage", "/sdcard/ImageCompresion/resultMassage.txt");
+        editor.putString("bitPos", "1");
+        editor.putString("MAXLONG", "54");
+        editor.apply();
+    }
+
     private void SwitchInitializate(){
         sw1.setText("Fixed Length");
         sw1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -190,6 +210,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // f.setSteganography(b);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putBoolean("Steganography", b);
+                if (b == false)
+                    editor.putBoolean("mark", b);
                 editor.apply();
                 param.isSteganography = b;
             }
@@ -321,8 +343,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem mi = menu.add(0, 1, 0, "Preferences");
         mi.setIntent(new Intent(this, PrefActivity.class));
-       /* MenuItem stegSett=menu.add(0,2,0,"Steganography");
-        stegSett.setIntent(new Intent(this,SteganographySetting.class));*/
+        MenuItem stegSett = menu.add(0, 2, 0, "Default Setting");
+       /* stegSett.setIntent(new Intent(this,SteganographySetting.class));*/
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -335,9 +357,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, PrefActivity.class);
             startActivity(intent);
         }
-       /* if(id==2)
-        {Intent intent=new Intent(this,SteganographySetting.class);
-            startActivity(intent);}*/
+        if (id == 2) {
+            SetStartState();
+            /*Intent intent=new Intent(this,SteganographySetting.class);
+            startActivity(intent);*/
+        }
 
         return true;
     }
@@ -362,7 +386,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             f.setQuantization(Flag.QuantizationState.Without);
 
         sw1.setChecked(f.isLongCode());
+        if (f.isSteganography() == true)
+            sw2.setChecked(f.isSteganography());
         sw2.setChecked(sp.getBoolean("Steganography", false));
+
 
         super.onResume();
     }

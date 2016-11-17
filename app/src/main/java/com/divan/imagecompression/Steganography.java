@@ -94,6 +94,7 @@ public class Steganography {
     private byte[] ReadByteArrayFromFile(String file) {
         try {
             FileInputStream fin = new FileInputStream(file);
+
             System.out.println("Размер файла: " + fin.available() + " байт(а)");
 
             byte[] buffer = new byte[fin.available()];
