@@ -525,10 +525,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 input.setLayoutParams(lp);
                 alertDialog.setView(input);
 
+
                 alertDialog.setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 param.password = input.getText().toString();
+
+
+ 
 
                             }
                         });

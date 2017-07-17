@@ -52,8 +52,10 @@ public class MyImage {
         G=matrix.b;
         B=matrix.c;
 
+ 
         enlCb=matrix.b;
         enlCr=matrix.c;
+
 
         Width=matrix.Width;
         Height=matrix.Height;
