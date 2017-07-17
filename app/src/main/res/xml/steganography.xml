@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="Steganography"
+        android:title="Steganography" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="mark"
+        android:summary="Автоматически считывать сообщение при декодировании"
+        android:title="Leave a mark" />
+    <EditTextPreference
+        android:defaultValue="/sdcard/ImageCompresion/massage.txt"
+        android:key="edit_text_preference_1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="Путь к файлу с исходным сообщением"
+        android:title="PathReadMassage" />
+    <EditTextPreference
+        android:defaultValue="/sdcard/ImageCompresion/resultMassage.txt"
+        android:key="edit_text_preference_2"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="Путь куда записывать считаное сообщение"
+        android:title="PathWriteMassage" />
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/list_preference_entry_values"
+        android:entryValues="@array/list_preference_entry_values"
+        android:key="bitPos"
+        android:summary="Позиция бита в который будет записано сообщение"
+        android:title="Encoded bit position" />
+</PreferenceScreen>
