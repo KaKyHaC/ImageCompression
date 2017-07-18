@@ -20,7 +20,7 @@ public class BoxOfDUM {
             matrix.state=State.YBR;
             a=new DataUnitMatrix(matrix.a,matrix.a.length,matrix.a[0].length,matrix.state, TypeQuantization.luminosity,matrix.f);
             b = new DataUnitMatrix(matrix.b, matrix.b.length, matrix.b[0].length, matrix.state, TypeQuantization.Chromaticity,matrix.f);
-            c = new DataUnitMatrix(matrix.c, matrix.c.length, matrix.c[0].length, matrix.state, TypeQuantization.Chromaticity,matrix.f);
+            c  = new DataUnitMatrix(matrix.c, matrix.c.length, matrix.c[0].length, matrix.state, TypeQuantization.Chromaticity,matrix.f);
 
     }
 
