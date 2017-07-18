@@ -1,4 +1,8 @@
-package com.divan.imagecompression;
+package com.divan.imagecompression.Singleton;
+
+import com.divan.imagecompression.Types.DataOPC;
+import com.divan.imagecompression.Types.Flag;
+import com.divan.imagecompression.Types.Parameters;
 
 import java.math.BigInteger;
 
@@ -132,7 +136,7 @@ public class OPC { //singelton
                     System.out.println("res");*/
 /*                if(bufbase<base)
                     System.out.println("base");*/
-                if(bufbase>Parameters.getMAXLONG())//is true ?
+                if(bufbase> Parameters.getMAXLONG())//is true ?
                 {
 
                     System.out.println("go");

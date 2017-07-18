@@ -1,4 +1,7 @@
-package com.divan.imagecompression;
+package com.divan.imagecompression.Singleton;
+
+import com.divan.imagecompression.Types.BoxOfOPC;
+import com.divan.imagecompression.Types.DataOPC;
 
 /**
  * Created by Димка on 30.10.2016.
@@ -16,7 +19,7 @@ public class Encryption { //singleton
     static short[] key;
     DataOPC dopc;
 
-    public static void encode(BoxOfOPC bopc,String key){
+    public static void encode(BoxOfOPC bopc, String key){
         ourInstance.key=KeyGen(key);
         Encryption.encode(bopc.a);
         Encryption.encode(bopc.b);

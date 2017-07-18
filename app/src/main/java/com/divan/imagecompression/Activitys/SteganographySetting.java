@@ -1,7 +1,9 @@
-package com.divan.imagecompression;
+package com.divan.imagecompression.Activitys;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+
+import com.divan.imagecompression.R;
 
 /**
  * Created by Димка on 12.11.2016.

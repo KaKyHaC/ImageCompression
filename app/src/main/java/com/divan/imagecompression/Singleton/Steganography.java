@@ -1,4 +1,7 @@
-package com.divan.imagecompression;
+package com.divan.imagecompression.Singleton;
+
+import com.divan.imagecompression.Types.Matrix;
+import com.divan.imagecompression.Types.Parameters;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

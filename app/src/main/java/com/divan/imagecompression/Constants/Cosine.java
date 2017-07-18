@@ -1,4 +1,4 @@
-package com.divan.imagecompression;
+package com.divan.imagecompression.Constants;
 
 /**
  * Created by Димка on 07.08.2016.

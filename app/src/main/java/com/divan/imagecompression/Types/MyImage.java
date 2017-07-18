@@ -1,12 +1,9 @@
-package com.divan.imagecompression;
+package com.divan.imagecompression.Types;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-/**
- * Created by Димка on 07.08.2016.
- */
-enum  State {RGB,YBR,Yenl,bitmap,DCT};
+;
 
 
 public class MyImage {
@@ -34,7 +31,7 @@ public class MyImage {
 
     }
 
-    MyImage(Matrix matrix) {
+    public MyImage(Matrix matrix) {
         this.matrix = matrix;
         Factory();
 
@@ -295,23 +292,3 @@ public class MyImage {
 
 }
 
- class Matrix
-{
-
-    protected short [][] a,b,c;
-    protected State state;
-    Flag f;
-    int Width, Height;
-
-    public Matrix(int width, int height,Flag flag) {
-        this.f=flag;
-        Width = width;
-        Height = height;
-
-        a=new short[width][height];
-        b=new short[width][height];
-        c=new short[width][height];
-
-
-    }
-}

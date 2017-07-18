@@ -1,4 +1,4 @@
-package com.divan.imagecompression;
+package com.divan.imagecompression.Activitys;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.divan.imagecompression.R;
 
 import java.io.File;
 import java.util.ArrayList;

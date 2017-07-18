@@ -1,4 +1,4 @@
-package com.divan.imagecompression;
+package com.divan.imagecompression.Types;
 
 import android.renderscript.Long4;
 
@@ -12,11 +12,11 @@ public class DataOPC {
 
     final int SIZEOFBLOCK=8;
 
-    protected short [] base;
-    protected boolean [][] sign;
-    protected short DC;
-    protected BigInteger N;
-    protected Vector<Long> Code;
+    public short [] base;
+    public boolean [][] sign;
+    public short DC;
+    public BigInteger N;
+    public Vector<Long> Code;
 
     public DataOPC() {
 

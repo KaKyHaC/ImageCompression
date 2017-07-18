@@ -1,10 +1,11 @@
-package com.divan.imagecompression;
+package com.divan.imagecompression.Singleton;
 
 
-/**
- * Created by Димка on 07.08.2016.
- */
-enum TypeQuantization{luminosity ,Chromaticity};
+import com.divan.imagecompression.Constants.Cosine;
+import com.divan.imagecompression.Constants.QuantizationTable;
+import com.divan.imagecompression.Types.TypeQuantization;
+
+;
 
 public class DCT {//singelton
 
@@ -81,7 +82,7 @@ public class DCT {//singelton
         {
             for(int j=0;j<SIZEOFBLOCK;j++)
             {
-                double res=Cosine.getDCTres(i,j);
+                double res= Cosine.getDCTres(i,j);
                 double sum=0.0;
                 for(int x=0;x<SIZEOFBLOCK;x++)
                 {

@@ -1,4 +1,6 @@
-package com.divan.imagecompression;
+package com.divan.imagecompression.Types;
+
+import com.divan.imagecompression.Singleton.DCT;
 
 /**
  * Created by Димка on 09.10.2016.
@@ -6,7 +8,7 @@ package com.divan.imagecompression;
 
 public class BoxOfOPC {
 
-    protected DataOPC[][] a,b,c;
+    public DataOPC[][] a,b,c;
     public int width,height; // need private
 
     public BoxOfOPC(int width, int height,boolean isEnlargement) {

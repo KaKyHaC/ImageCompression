@@ -1,6 +1,11 @@
-package com.divan.imagecompression;
+package com.divan.imagecompression.Singleton;
 
-import android.os.AsyncTask;
+import com.divan.imagecompression.Types.BoxOfOPC;
+import com.divan.imagecompression.Types.DataOPC;
+import com.divan.imagecompression.Activitys.MainActivity;
+import com.divan.imagecompression.Types.Matrix;
+import com.divan.imagecompression.Types.Parameters;
+import com.divan.imagecompression.Types.State;
 
 /**
  * Created by Димка on 09.10.2016.
@@ -112,7 +117,7 @@ public class ApplicationOPC {//singelton
 
     }
 
-    public void FromMatrixToFile(MainActivity.FromBMPtoFile As,Matrix matrix, String file){
+    public void FromMatrixToFile(MainActivity.FromBMPtoFile As, Matrix matrix, String file){
         this.matrix = matrix;
         opcs=new BoxOfOPC(matrix.Width,matrix.Height,matrix.f.isEnlargement());
         duWidth=opcs.width;
@@ -162,7 +167,7 @@ public class ApplicationOPC {//singelton
 
         As.Update(30);
         reverceOPC();
-        matrix.state=State.DCT;
+        matrix.state= State.DCT;
 
         if(matrix.f.isSteganography()||param.isSteganography)//TODO interface
             st.ReadMassageFromMatrixtoFile(matrix,param.PathWriteMassage);

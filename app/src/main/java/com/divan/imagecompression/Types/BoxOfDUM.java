@@ -1,6 +1,4 @@
-package com.divan.imagecompression;
-
-import android.graphics.*;
+package com.divan.imagecompression.Types;
 
 /**
  * Created by Димка on 19.09.2016.
@@ -11,9 +9,9 @@ public class BoxOfDUM {
 
     public BoxOfDUM(Matrix matrix) {
         this.matrix = matrix;
-        if(matrix.state==State.Yenl)//new code . Does it is needed ?
+        if(matrix.state== State.Yenl)//new code . Does it is needed ?
             matrix.state=State.YBR;
-            a=new DataUnitMatrix(matrix.a,matrix.a.length,matrix.a[0].length,matrix.state,TypeQuantization.luminosity,matrix.f);
+            a=new DataUnitMatrix(matrix.a,matrix.a.length,matrix.a[0].length,matrix.state, TypeQuantization.luminosity,matrix.f);
             b = new DataUnitMatrix(matrix.b, matrix.b.length, matrix.b[0].length, matrix.state, TypeQuantization.Chromaticity,matrix.f);
             c = new DataUnitMatrix(matrix.c, matrix.c.length, matrix.c[0].length, matrix.state, TypeQuantization.Chromaticity,matrix.f);
 

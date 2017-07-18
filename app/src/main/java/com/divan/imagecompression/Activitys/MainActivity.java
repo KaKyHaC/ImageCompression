@@ -1,4 +1,4 @@
-package com.divan.imagecompression;
+package com.divan.imagecompression.Activitys;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +26,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import com.divan.imagecompression.Utils.AndroidBmpUtil;
+import com.divan.imagecompression.Types.BoxOfDUM;
+import com.divan.imagecompression.Types.Flag;
+import com.divan.imagecompression.Types.Matrix;
+import com.divan.imagecompression.Types.MyImage;
+import com.divan.imagecompression.Types.Parameters;
+import com.divan.imagecompression.R;
+import com.divan.imagecompression.Singleton.ApplicationOPC;
 
 import java.io.File;
 import java.io.IOException;
