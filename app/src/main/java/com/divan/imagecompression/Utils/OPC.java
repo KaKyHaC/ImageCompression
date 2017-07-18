@@ -1,8 +1,8 @@
-package com.divan.imagecompression.Singleton;
+package com.divan.imagecompression.Utils;
 
-import com.divan.imagecompression.Types.DataOPC;
-import com.divan.imagecompression.Types.Flag;
-import com.divan.imagecompression.Types.Parameters;
+import com.divan.imagecompression.Objects.DataOPC;
+import com.divan.imagecompression.Objects.Flag;
+import com.divan.imagecompression.Objects.Parameters;
 
 import java.math.BigInteger;
 
@@ -19,7 +19,7 @@ public class OPC { //singelton
 
     public static OPC getInstance()
     {
-        return opc;
+        return new OPC();
     }
     private OPC(){}
 

@@ -1,4 +1,4 @@
-package com.divan.imagecompression.Types;
+package com.divan.imagecompression.Objects;
 
 /**
  * Created by Димка on 13.10.2016.

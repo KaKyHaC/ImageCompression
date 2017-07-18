@@ -1,4 +1,7 @@
-package com.divan.imagecompression.Types;
+package com.divan.imagecompression.Containers;
+
+import com.divan.imagecompression.Objects.Flag;
+import com.divan.imagecompression.Objects.State;
 
 public class Matrix
 {

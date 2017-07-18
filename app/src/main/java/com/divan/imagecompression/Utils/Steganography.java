@@ -1,7 +1,7 @@
-package com.divan.imagecompression.Singleton;
+package com.divan.imagecompression.Utils;
 
-import com.divan.imagecompression.Types.Matrix;
-import com.divan.imagecompression.Types.Parameters;
+import com.divan.imagecompression.Containers.Matrix;
+import com.divan.imagecompression.Objects.Parameters;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,7 +22,7 @@ public class Steganography {
     }
 
     public static Steganography getInstance() {
-        return ourInstance;
+        return new Steganography();
     }
 
     public void ReadMassageFromMatrixtoFile(Matrix matrix, String file) {

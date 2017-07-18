@@ -1,4 +1,4 @@
-package com.divan.imagecompression.Singleton;
+package com.divan.imagecompression.Utils;
 
 import android.os.Environment;
 import android.util.Log;
@@ -10,16 +10,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.Vector;
 
-import android.graphics.Bitmap;
-
-import com.divan.imagecompression.Types.BoxOfOPC;
-import com.divan.imagecompression.Types.DataOPC;
-import com.divan.imagecompression.Types.Flag;
-import com.divan.imagecompression.Types.Parameters;
+import com.divan.imagecompression.Containers.BoxOfOPC;
+import com.divan.imagecompression.Objects.DataOPC;
+import com.divan.imagecompression.Objects.Flag;
+import com.divan.imagecompression.Objects.Parameters;
 
 /**
  * Created by Димка on 28.09.2016.

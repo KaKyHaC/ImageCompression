@@ -1,6 +1,4 @@
-package com.divan.imagecompression.Types;
-
-import android.renderscript.Long4;
+package com.divan.imagecompression.Objects;
 
 import java.math.BigInteger;
 import java.util.Vector;

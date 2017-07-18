@@ -1,11 +1,21 @@
-package com.divan.imagecompression.Singleton;
+package com.divan.imagecompression.Objects;
 
-import com.divan.imagecompression.Types.BoxOfOPC;
-import com.divan.imagecompression.Types.DataOPC;
 import com.divan.imagecompression.Activitys.MainActivity;
-import com.divan.imagecompression.Types.Matrix;
-import com.divan.imagecompression.Types.Parameters;
-import com.divan.imagecompression.Types.State;
+import com.divan.imagecompression.Containers.BoxOfOPC;
+import com.divan.imagecompression.Containers.Matrix;
+import com.divan.imagecompression.Utils.DCT;
+import com.divan.imagecompression.Utils.Encryption;
+import com.divan.imagecompression.Utils.OPC;
+import com.divan.imagecompression.Utils.Steganography;
+import com.divan.imagecompression.Utils.FileStream;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by Димка on 09.10.2016.
@@ -26,7 +36,7 @@ public class ApplicationOPC {//singelton
     static private ApplicationOPC Aopc=new ApplicationOPC();
     private ApplicationOPC(){}
 
-    public static ApplicationOPC getInstance(){return Aopc;}
+    public static ApplicationOPC getInstance(){return new ApplicationOPC();}
 
 
     private void directOPC(short[][]dataOrigin,DataOPC[][]dopc){
@@ -95,16 +105,43 @@ public class ApplicationOPC {//singelton
         return res;
     }
 
-    public void directOPC(){
-        directOPC(matrix.a,opcs.a);
-        directOPC(matrix.b,opcs.b);
-        directOPC(matrix.c,opcs.c);
-    }
-    public void reverceOPC(){// create matrix with corect size of b and c (complite)
-       matrix.a=reverceOPC(opcs.a);
-       matrix.b=reverceOPC(opcs.b);
-       matrix.c=reverceOPC(opcs.c);
+    public void directOPC(){ //multy thred
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        Future futures[] = new Future[3];
 
+        futures[0]=executorService.submit(()->directOPC(matrix.a,opcs.a));
+        futures[1]=executorService.submit(()->directOPC(matrix.b,opcs.b));
+        futures[2]=executorService.submit(()->directOPC(matrix.c,opcs.c));
+
+        for (Future future : futures) {
+            try {
+                future.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void reverceOPC(){// create matrix with corect size of b and c (complite)  //multy thred
+       ExecutorService executorService = Executors.newFixedThreadPool(3);
+       List<Future<short[][]>> futures=new ArrayList<Future<short[][]>>();
+
+
+        futures.add(executorService.submit(()->reverceOPC(opcs.a)));
+        futures.add(executorService.submit(()->reverceOPC(opcs.b)));
+        futures.add(executorService.submit(()->reverceOPC(opcs.c)));
+
+
+        try {
+            matrix.a=futures.get(0).get();
+            matrix.b=futures.get(1).get();
+            matrix.c=futures.get(2).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     private void WriteToFile(String file){

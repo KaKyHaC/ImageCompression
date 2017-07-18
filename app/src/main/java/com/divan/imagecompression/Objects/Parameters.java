@@ -1,4 +1,4 @@
-package com.divan.imagecompression.Types;
+package com.divan.imagecompression.Objects;
 
 public class Parameters {
     static Parameters instanse = new Parameters();

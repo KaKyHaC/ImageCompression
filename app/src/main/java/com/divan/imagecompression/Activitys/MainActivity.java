@@ -28,13 +28,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.divan.imagecompression.Utils.AndroidBmpUtil;
-import com.divan.imagecompression.Types.BoxOfDUM;
-import com.divan.imagecompression.Types.Flag;
-import com.divan.imagecompression.Types.Matrix;
-import com.divan.imagecompression.Types.MyImage;
-import com.divan.imagecompression.Types.Parameters;
+import com.divan.imagecompression.Objects.BoxOfDUM;
+import com.divan.imagecompression.Objects.Flag;
+import com.divan.imagecompression.Containers.Matrix;
+import com.divan.imagecompression.Objects.MyImage;
+import com.divan.imagecompression.Objects.Parameters;
 import com.divan.imagecompression.R;
-import com.divan.imagecompression.Singleton.ApplicationOPC;
+import com.divan.imagecompression.Objects.ApplicationOPC;
 
 import java.io.File;
 import java.io.IOException;

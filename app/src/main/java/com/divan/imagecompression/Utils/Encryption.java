@@ -1,7 +1,7 @@
-package com.divan.imagecompression.Singleton;
+package com.divan.imagecompression.Utils;
 
-import com.divan.imagecompression.Types.BoxOfOPC;
-import com.divan.imagecompression.Types.DataOPC;
+import com.divan.imagecompression.Containers.BoxOfOPC;
+import com.divan.imagecompression.Objects.DataOPC;
 
 /**
  * Created by Димка on 30.10.2016.
@@ -10,7 +10,7 @@ public class Encryption { //singleton
     private static Encryption ourInstance = new Encryption();
 
     public static Encryption getInstance() {
-        return ourInstance;
+        return new Encryption();
     }
 
     private Encryption() {

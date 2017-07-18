@@ -1,6 +1,6 @@
-package com.divan.imagecompression.Types;
+package com.divan.imagecompression.Objects;
 
-import com.divan.imagecompression.Singleton.DCT;
+import com.divan.imagecompression.Utils.DCT;
 
 /**
  * Created by Димка on 08.08.2016.

@@ -1,6 +1,7 @@
-package com.divan.imagecompression.Types;
+package com.divan.imagecompression.Containers;
 
-import com.divan.imagecompression.Singleton.DCT;
+import com.divan.imagecompression.Objects.DataOPC;
+import com.divan.imagecompression.Utils.DCT;
 
 /**
  * Created by Димка on 09.10.2016.

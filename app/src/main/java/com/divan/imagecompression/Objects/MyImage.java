@@ -1,9 +1,8 @@
-package com.divan.imagecompression.Types;
+package com.divan.imagecompression.Objects;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-
-;
+import com.divan.imagecompression.Containers.Matrix;
 
 
 public class MyImage {

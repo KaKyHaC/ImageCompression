@@ -1,4 +1,11 @@
-package com.divan.imagecompression.Types;
+package com.divan.imagecompression.Objects;
+
+import com.divan.imagecompression.Containers.Matrix;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by Димка on 19.09.2016.
@@ -20,9 +27,24 @@ public class BoxOfDUM {
     public void dataProcessing() {
         if(matrix.state==State.Yenl)//new code . Does it is needed ?
             matrix.state=State.YBR;
-        a.dataProcessing();
-        b.dataProcessing();
-        c.dataProcessing();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        Future[] futures=new Future[3];
+
+        futures[0] = executorService.submit(()-> a.dataProcessing());
+        futures[1] = executorService.submit(()-> b.dataProcessing());
+        futures[2] = executorService.submit(()-> c.dataProcessing());
+
+        for (Future future : futures) {
+            try {
+                future.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+
         matrix.state=a.getState();
         if(matrix.a.length>matrix.b.length&&matrix.state==State.YBR)
             matrix.state=State.Yenl;

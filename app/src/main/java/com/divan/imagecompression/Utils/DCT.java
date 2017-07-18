@@ -1,9 +1,9 @@
-package com.divan.imagecompression.Singleton;
+package com.divan.imagecompression.Utils;
 
 
 import com.divan.imagecompression.Constants.Cosine;
 import com.divan.imagecompression.Constants.QuantizationTable;
-import com.divan.imagecompression.Types.TypeQuantization;
+import com.divan.imagecompression.Objects.TypeQuantization;
 
 ;
 
@@ -23,7 +23,7 @@ public class DCT {//singelton
     }
 
     public static DCT getInstanse() {
-        return tmp;
+        return new DCT();
     }
 
 
