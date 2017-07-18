@@ -5,78 +5,69 @@ import com.divan.imagecompression.Constants.Cosine;
 import com.divan.imagecompression.Constants.QuantizationTable;
 import com.divan.imagecompression.Objects.TypeQuantization;
 
-;
 
-public class DCT {//singelton
+
+public class DCTMultiThread {//singelton
 
     public final static int SIZEOFBLOCK = 8;
+    final static double OneDivadMathsqrt2=1.0/Math.sqrt(2.0);
 
 
-    private static DCT tmp = new DCT();
     private static TypeQuantization tq;
-    private static short[][] dateOriginal ;
-    private static short[][] dateProcessed ;
     // private long DC;
 
-    private DCT() {
+    private DCTMultiThread() {}
 
-    }
-
-    public static DCT getInstanse() {
-        return new DCT();
-    }
 
 
     public static short[][] directDCT(short[][] date){
-        dateOriginal=date;
-        dateProcessed=new short[SIZEOFBLOCK][SIZEOFBLOCK];
-        tmp.directDCT();
-        return dateProcessed;
+        short[][] dateOriginal=date;
+        short[][] dateProcessed=new short[SIZEOFBLOCK][SIZEOFBLOCK];
+        return directDCT(dateOriginal,dateProcessed);
     }
     public static short[][] reverseDCT(short[][] date){
-        dateOriginal=date;
-        dateProcessed=new short[SIZEOFBLOCK][SIZEOFBLOCK];
-        tmp.reverseDCT();
-        return dateProcessed;
+        short[][] dateOriginal=date;
+        short[][] dateProcessed=new short[SIZEOFBLOCK][SIZEOFBLOCK];
+        return reverseDCT(dateOriginal,dateProcessed);
     }
 
-    public static void directQuantization(TypeQuantization _tq) {
+    public static short[][] directQuantization(TypeQuantization _tq,short[][]date) {
 
         if (_tq == TypeQuantization.luminosity)
             for (int i = 0; i < SIZEOFBLOCK; i++)
                 for (int j = 0; j < SIZEOFBLOCK; j++) {
                     //dateProcessed[i][j]/=QuantizationTable.getSmart(1,i,j);
-                    dateProcessed[i][j] /= QuantizationTable.getLuminosity(i, j);
+                    date[i][j] /= QuantizationTable.getLuminosity(i, j);
                 }
         else if (_tq == TypeQuantization.Chromaticity)
             for (int i = 0; i < SIZEOFBLOCK; i++)
                 for (int j = 0; j < SIZEOFBLOCK; j++) {
                     // dateProcessed[i][j]/=QuantizationTable.getSmart(3,i,j);
-                    dateProcessed[i][j] /= QuantizationTable.getChromaticity(i, j);
+                    date[i][j] /= QuantizationTable.getChromaticity(i, j);
                 }
-
+        return date;
     }
 
-    public static void reverseQuantization(TypeQuantization _tq) {
+    public static short[][] reverseQuantization(TypeQuantization _tq,short[][]date) {
 
         if (_tq == TypeQuantization.luminosity)
             for (int i = 0; i < SIZEOFBLOCK; i++)
                 for (int j = 0; j < SIZEOFBLOCK; j++) {
                     // dateProcessed[i][j]*=QuantizationTable.getSmart(1,i,j);
-                    dateProcessed[i][j] *= QuantizationTable.getLuminosity(i, j);
+                    date[i][j] *= QuantizationTable.getLuminosity(i, j);
                 }
         else if (_tq == TypeQuantization.Chromaticity)
             for (int i = 0; i < SIZEOFBLOCK; i++)
                 for (int j = 0; j < SIZEOFBLOCK; j++) {
                     // dateProcessed[i][j]*=QuantizationTable.getSmart(3,i,j);
-                    dateProcessed[i][j] *= QuantizationTable.getChromaticity(i, j);
+                    date[i][j] *= QuantizationTable.getChromaticity(i, j);
                 }
-
+        return date;
 
     }
 
     /*-------main metode---------*/
-    private void directDCT() {
+    private static short[][] directDCT(short[][] dateOriginal,short[][]dateProcessed) {
        // minus128();//test
         for(int i=0;i<SIZEOFBLOCK;i++)
         {
@@ -107,11 +98,9 @@ public class DCT {//singelton
 
             }
         }
+        return dateProcessed;
     }
-
-    private void reverseDCT() {
-        double OneDivadMathsqrt2=1.0/Math.sqrt(2.0);
-
+    private static short[][] reverseDCT(short[][]dateOriginal,short[][]dateProcessed) {
         for(int x=0;x<SIZEOFBLOCK;x++)
         {
             for(int y=0;y<SIZEOFBLOCK;y++)
@@ -132,21 +121,24 @@ public class DCT {//singelton
             }
         }
        // plus128();//
+        return dateProcessed;
     }
 
-    private void minus128 (){
+    private static short[][] minus128 (short[][]dateOriginal){
         for(int i=0;i< SIZEOFBLOCK;i++)
             for(int j=0;j<SIZEOFBLOCK;j++)
             {
                 dateOriginal[i][j]-=(short)128;
             }
+        return dateOriginal;
     }
-    private void plus128 (){
+    private static short[][] plus128 (short[][]dateProcessed){
         for(int i=0;i< SIZEOFBLOCK;i++)
             for(int j=0;j<SIZEOFBLOCK;j++)
             {
                 dateProcessed[i][j]+=(short)128;
             }
+        return dateProcessed;
     }
 
     // обопщенно позоционное кодирование

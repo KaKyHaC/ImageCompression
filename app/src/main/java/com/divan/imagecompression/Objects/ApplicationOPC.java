@@ -3,7 +3,7 @@ package com.divan.imagecompression.Objects;
 import com.divan.imagecompression.Activitys.MainActivity;
 import com.divan.imagecompression.Containers.BoxOfOPC;
 import com.divan.imagecompression.Containers.Matrix;
-import com.divan.imagecompression.Utils.DCT;
+import com.divan.imagecompression.Utils.DCTMultiThread;
 import com.divan.imagecompression.Utils.Encryption;
 import com.divan.imagecompression.Utils.OPC;
 import com.divan.imagecompression.Utils.Steganography;
@@ -11,7 +11,6 @@ import com.divan.imagecompression.Utils.FileStream;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -54,11 +53,11 @@ public class ApplicationOPC {//singelton
         for (int i = 0; i < duWidth; i++) {
             for (int j = 0; j < duHeight; j++) {
 
-                for (int x = 0; x < DCT.SIZEOFBLOCK; x++) {
-                    for (int y = 0; y < DCT.SIZEOFBLOCK; y++) {
+                for (int x = 0; x < DCTMultiThread.SIZEOFBLOCK; x++) {
+                    for (int y = 0; y < DCTMultiThread.SIZEOFBLOCK; y++) {
                         short value = 0;
-                        int curX=i * DCT.SIZEOFBLOCK + x;
-                        int curY=j * DCT.SIZEOFBLOCK + y;
+                        int curX=i * DCTMultiThread.SIZEOFBLOCK + x;
+                        int curY=j * DCTMultiThread.SIZEOFBLOCK + y;
                         if (curX< Width && curY < Height)
                             value = dataOrigin[curX][curY];
                         buf[x][y] = value;
@@ -87,11 +86,11 @@ public class ApplicationOPC {//singelton
 
                 buf=opc.getDataOrigin(dopc[i][j],matrix.f);
 
-                for (int x = 0; x < DCT.SIZEOFBLOCK; x++) {
-                    for (int y = 0; y < DCT.SIZEOFBLOCK; y++) {
+                for (int x = 0; x < DCTMultiThread.SIZEOFBLOCK; x++) {
+                    for (int y = 0; y < DCTMultiThread.SIZEOFBLOCK; y++) {
 
-                        int curX=i * DCT.SIZEOFBLOCK + x;
-                        int curY=j * DCT.SIZEOFBLOCK + y;
+                        int curX=i * DCTMultiThread.SIZEOFBLOCK + x;
+                        int curY=j * DCTMultiThread.SIZEOFBLOCK + y;
                         if (curX< Width && curY < Height)
                             res[curX][curY] = buf[x][y];
                         // DU[i][j].setValue(val,x,y);
@@ -242,11 +241,11 @@ public class ApplicationOPC {//singelton
         for (int i = 0; i < duWidth; i++) {
             for (int j = 0; j < duHeight; j++) {
 
-                for (int x = 0; x < DCT.SIZEOFBLOCK; x++) {
-                    for (int y = 0; y < DCT.SIZEOFBLOCK; y++) {
+                for (int x = 0; x < DCTMultiThread.SIZEOFBLOCK; x++) {
+                    for (int y = 0; y < DCTMultiThread.SIZEOFBLOCK; y++) {
                         short value = 0;
-                        int curX=i * DCT.SIZEOFBLOCK + x;
-                        int curY=j * DCT.SIZEOFBLOCK + y;
+                        int curX=i * DCTMultiThread.SIZEOFBLOCK + x;
+                        int curY=j * DCTMultiThread.SIZEOFBLOCK + y;
                         if (curX< Width && curY < Height)
                             value = dataOrigin[curX][curY];
                         buf[x][y] = value;
@@ -300,11 +299,11 @@ public class ApplicationOPC {//singelton
         for (int i = 0; i < duWidth; i++) {
             for (int j = 0; j < duHeight; j++) {
 
-                for (int x = 0; x < DCT.SIZEOFBLOCK; x++) {
-                    for (int y = 0; y < DCT.SIZEOFBLOCK; y++) {
+                for (int x = 0; x < DCTMultiThread.SIZEOFBLOCK; x++) {
+                    for (int y = 0; y < DCTMultiThread.SIZEOFBLOCK; y++) {
                         short value = 0;
-                        int curX=i * DCT.SIZEOFBLOCK + x;
-                        int curY=j * DCT.SIZEOFBLOCK + y;
+                        int curX=i * DCTMultiThread.SIZEOFBLOCK + x;
+                        int curY=j * DCTMultiThread.SIZEOFBLOCK + y;
                         if (curX< Width && curY < Height)
                             value = dataOrigin[curX][curY];
                         buf[x][y] = value;

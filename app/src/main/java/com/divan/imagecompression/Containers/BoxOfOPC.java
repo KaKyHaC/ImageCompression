@@ -1,7 +1,7 @@
 package com.divan.imagecompression.Containers;
 
 import com.divan.imagecompression.Objects.DataOPC;
-import com.divan.imagecompression.Utils.DCT;
+import com.divan.imagecompression.Utils.DCTMultiThread;
 
 /**
  * Created by Димка on 09.10.2016.
@@ -25,11 +25,11 @@ public class BoxOfOPC {
         c=new DataOPC[width/k][height/k];
     }
     private void sizeCalculate(int Width,int Height) {
-        width = Width / DCT.SIZEOFBLOCK;
-        height = Height / DCT.SIZEOFBLOCK;
-        if (Width % DCT.SIZEOFBLOCK != 0)
+        width = Width / DCTMultiThread.SIZEOFBLOCK;
+        height = Height / DCTMultiThread.SIZEOFBLOCK;
+        if (Width % DCTMultiThread.SIZEOFBLOCK != 0)
             width++;
-        if (Height % DCT.SIZEOFBLOCK != 0)
+        if (Height % DCTMultiThread.SIZEOFBLOCK != 0)
             height++;
 
         //   createMatrix();

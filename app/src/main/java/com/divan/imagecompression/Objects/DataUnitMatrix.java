@@ -1,6 +1,6 @@
 package com.divan.imagecompression.Objects;
 
-import com.divan.imagecompression.Utils.DCT;
+import com.divan.imagecompression.Utils.DCTMultiThread;
 
 /**
  * Created by Димка on 08.08.2016.
@@ -36,11 +36,11 @@ public class DataUnitMatrix {
 
     }
     private void sizeCalculate() {
-        duWidth = Width / DCT.SIZEOFBLOCK;
-        duHeight = Height / DCT.SIZEOFBLOCK;
-        if (Width % DCT.SIZEOFBLOCK != 0)
+        duWidth = Width / DCTMultiThread.SIZEOFBLOCK;
+        duHeight = Height / DCTMultiThread.SIZEOFBLOCK;
+        if (Width % DCTMultiThread.SIZEOFBLOCK != 0)
             duWidth++;
-        if (Height % DCT.SIZEOFBLOCK != 0)
+        if (Height % DCTMultiThread.SIZEOFBLOCK != 0)
             duHeight++;
 
      //   createMatrix();
@@ -53,19 +53,19 @@ public class DataUnitMatrix {
         for (int i = 0; i < duWidth; i++) {
             for (int j = 0; j < duHeight; j++) {
 
-                int curX = i * DCT.SIZEOFBLOCK;
-                int curY = j * DCT.SIZEOFBLOCK;
+                int curX = i * DCTMultiThread.SIZEOFBLOCK;
+                int curY = j * DCTMultiThread.SIZEOFBLOCK;
                 if(i!=0&&j!=0)
                     dataOrigin[curX][curY]=(short)(dataOrigin[0][0]-dataOrigin[curX][curY]);
             }
         }
     }
     private short[][] fillBufferforDU(int i,int j,short[][]buffer){
-        for (int x = 0; x < DCT.SIZEOFBLOCK; x++) {
-            for (int y = 0; y < DCT.SIZEOFBLOCK; y++) {
+        for (int x = 0; x < DCTMultiThread.SIZEOFBLOCK; x++) {
+            for (int y = 0; y < DCTMultiThread.SIZEOFBLOCK; y++) {
                 short value = 0;
-                int curX = i * DCT.SIZEOFBLOCK + x;
-                int curY = j * DCT.SIZEOFBLOCK + y;
+                int curX = i * DCTMultiThread.SIZEOFBLOCK + x;
+                int curY = j * DCTMultiThread.SIZEOFBLOCK + y;
                 if (curX< Width && curY < Height)
                     value = dataOrigin[curX][curY];
                 buffer[x][y] = value;
@@ -81,16 +81,16 @@ public class DataUnitMatrix {
             if(flag.isAlignment())
             minus128(buf);
 
-            buf = DCT.directDCT(buf);
+            buf = DCTMultiThread.directDCT(buf);
 
             if(flag.getQuantization()== Flag.QuantizationState.First)
-                DCT.directQuantization(tq);
+                DCTMultiThread.directQuantization(tq,buf);
         }
         else if(state==State.DCT)
         {
             if(flag.getQuantization()== Flag.QuantizationState.First)
-                DCT.reverseQuantization(tq);
-            buf = DCT.reverseDCT(buf);
+                DCTMultiThread.reverseQuantization(tq,buf);
+            buf = DCTMultiThread.reverseDCT(buf);
 
             if(flag.isAlignment())
             plus128(buf);
@@ -99,11 +99,11 @@ public class DataUnitMatrix {
         return buf;
     }
     private void fillDateProcessed(int i,int j,short[][]buffer){
-        for (int x = 0; x < DCT.SIZEOFBLOCK; x++) {
-            for (int y = 0; y < DCT.SIZEOFBLOCK; y++) {
+        for (int x = 0; x < DCTMultiThread.SIZEOFBLOCK; x++) {
+            for (int y = 0; y < DCTMultiThread.SIZEOFBLOCK; y++) {
 
-                int curX = i * DCT.SIZEOFBLOCK + x;
-                int curY = j * DCT.SIZEOFBLOCK + y;
+                int curX = i * DCTMultiThread.SIZEOFBLOCK + x;
+                int curY = j * DCTMultiThread.SIZEOFBLOCK + y;
                 if (curX< Width && curY < Height)
                     dataProcessed[curX][curY] = buffer[x][y];
             }
@@ -111,7 +111,7 @@ public class DataUnitMatrix {
     }
 
     public void dataProcessing() {
-        short[][] buf = new short[DCT.SIZEOFBLOCK][DCT.SIZEOFBLOCK];
+        short[][] buf = new short[DCTMultiThread.SIZEOFBLOCK][DCTMultiThread.SIZEOFBLOCK];
         if(state==State.DCT)
             preProsses();
 
