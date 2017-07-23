@@ -9,50 +9,40 @@ import java.math.BigInteger;
 /**
  * Created by Димка on 27.09.2016.
  */
-public class OPC { //singelton
-    protected final int SIZEOFBLOCK = 8;
+public class OPCMultiThread { //singelton
+    protected final static int SIZEOFBLOCK = 8;
+    private OPCMultiThread(){}
 
-    static OPC opc=new OPC();
-
-    private short  [][] dataOrigin;
-    private DataOPC dataOPC;
-
-    public static OPC getInstance()
-    {
-        return new OPC();
-    }
-    private OPC(){}
-
-
-
-    private void directOPC(Flag flag){
-        MakeUnSigned();
+    private static  void directOPC(Flag flag,short[][]dataOrigin,DataOPC dataOPC){
+        MakeUnSigned(dataOrigin,dataOPC);
         if(flag.isDC())
-            DCminus();
-        FindeBase();
+            DCminus(dataOrigin,dataOPC);
+        FindeBase(dataOrigin,dataOPC);
 
         if(flag.isLongCode())
-            OPCdirectUseOnlyLong();
+            OPCdirectUseOnlyLong(dataOrigin,dataOPC);
         else
-            OPCdirect();
+            OPCdirect(dataOrigin,dataOPC);
     }
-    private void reverseOPC(Flag flag){
+    private static  void reverseOPC(Flag flag,short[][]dataOrigin,DataOPC dataOPC){
         if(flag.isLongCode())
-            OPCreverseUseOnlyLong();
+            OPCreverseUseOnlyLong(dataOrigin,dataOPC);
         else
-            OPCreverse();
+            OPCreverse(dataOrigin,dataOPC);
 
         if(flag.isDC())
-            DCplus();
-        MakeSigned();
+            DCplus(dataOrigin,dataOPC);
+        
+        MakeSigned(dataOrigin,dataOPC);
 
     }
 
 
-    private void FindeBase() {
+    private static  DataOPC FindeBase(final short[][] dataOrigin,DataOPC dataOPC) {
+//        short[] base=new short[SIZEOFBLOCK];
         for(int i=0;i<SIZEOFBLOCK;i++)
         {
-            dataOPC.base[i]=(short)(dataOrigin[i][0]);
+            dataOPC.base[i]=(dataOrigin[i][0]);
             for(int j=0;j<SIZEOFBLOCK;j++)
             {
                 if(dataOPC.base[i]<(dataOrigin[i][j]))
@@ -62,9 +52,10 @@ public class OPC { //singelton
             }
             dataOPC.base[i]++;
         }
+        return dataOPC;
     }
 
-    private void MakeUnSigned ()    {
+    private static  DataOPC MakeUnSigned (final short[][] dataOrigin,DataOPC dataOPC)    {
         for(int i=0;i<SIZEOFBLOCK;i++)
         {
             for(int j=0;j<SIZEOFBLOCK;j++)
@@ -80,8 +71,9 @@ public class OPC { //singelton
                 }
             }
         }
+        return dataOPC;
     }
-    private void MakeSigned()    {
+    private static  DataOPC MakeSigned(final short[][] dataOrigin,DataOPC dataOPC)    {
         for(int i=0;i<SIZEOFBLOCK;i++)
         {
             for(int j=0;j<SIZEOFBLOCK;j++)
@@ -93,20 +85,21 @@ public class OPC { //singelton
 
             }
         }
+        return dataOPC;
     }
 
-    private void DCminus(){
+    private static  void DCminus(short[][]dataOrigin,DataOPC dataOPC){
         dataOPC.DC=(dataOrigin[0][0]);
         dataOrigin[0][0]=0;
 
     }
-    private void DCplus(){
+    private static  void DCplus(short[][]dataOrigin,DataOPC dataOPC){
         dataOrigin[0][0]=dataOPC.DC;
     }
 
 
-    private void OPCdirect(){//TODO diagonal for optimization
-        dataOPC.N=OPCdirectLong();
+    private static  void OPCdirect(short[][]dataOrigin,DataOPC dataOPC){//TODO diagonal for optimization
+        dataOPC.N=OPCdirectLong(dataOrigin,dataOPC);
 /*        BigInteger base= new BigInteger("1");
         for(int i=SIZEOFBLOCK-1;i>=0;i--)
         {
@@ -121,7 +114,7 @@ public class OPC { //singelton
             }
         }*/
     }
-    private BigInteger OPCdirectLong(){
+    private static  BigInteger OPCdirectLong(short[][]dataOrigin,DataOPC dataOPC){
 
         long base= 1;
         long res=0;
@@ -138,9 +131,8 @@ public class OPC { //singelton
                     System.out.println("base");*/
                 if(bufbase> Parameters.getMAXLONG())//is true ?
                 {
-
                     System.out.println("go");
-                    return OPCdirectBI(res,base,i,j);
+                    return OPCdirectBI(res,base,i,j,dataOrigin,dataOPC);
                 }
                 if(dataOrigin[i][j]!=0)
                 {
@@ -152,7 +144,7 @@ public class OPC { //singelton
         }
         return BigInteger.valueOf(res);
     }
-    private BigInteger OPCdirectBI(long res,long baseval,int i1,int j1){
+    private static  BigInteger OPCdirectBI(long res,long baseval,int i1,int j1,short[][]dataOrigin,DataOPC dataOPC){
 
         BigInteger val=BigInteger.valueOf(res);
         BigInteger base=BigInteger.valueOf(baseval);
@@ -175,7 +167,7 @@ public class OPC { //singelton
         return val;
     }
 
-    private void OPCreverse() // method copy from C++ Project MAH
+    private static  void OPCreverse(short[][]dataOrigin,DataOPC dataOPC) // method copy from C++ Project MAH
     {
         BigInteger copy=new BigInteger("1");
         for (int i = SIZEOFBLOCK - 1; i >= 0; i--)
@@ -194,7 +186,7 @@ public class OPC { //singelton
         }
     }
 
-    private void OPCdirectUseOnlyLong(){
+    private static  void OPCdirectUseOnlyLong(short[][]dataOrigin,DataOPC dataOPC){
         long base= 1;
         long res=0;
         long bufbase;
@@ -222,7 +214,7 @@ public class OPC { //singelton
         }
         dataOPC.Code.add(res);
     }
-    private void OPCreverseUseOnlyLong(){
+    private static  void OPCreverseUseOnlyLong(short[][]dataOrigin,DataOPC dataOPC){
         long copy=1;
         int index=0;
         long curN=dataOPC.Code.elementAt(index);
@@ -258,43 +250,40 @@ public class OPC { //singelton
 
 
 
-    public short[][]getDataOrigin(DataOPC dopc,Flag flag){
-        this.dataOPC=dopc;
-        dataOrigin=new short[SIZEOFBLOCK][SIZEOFBLOCK];
-        reverseOPC(flag);
+    public static short[][]getDataOrigin(DataOPC dopc,Flag flag){
+        DataOPC dataOPC=dopc;
+        short[][] dataOrigin=new short[SIZEOFBLOCK][SIZEOFBLOCK];
+        reverseOPC(flag,dataOrigin,dataOPC);
         return dataOrigin;
     }
-    public DataOPC getDataOPC(short[][] dataOrigin,Flag flag){
-        this.dataOrigin = dataOrigin;
-        dataOPC=new DataOPC();
-        directOPC(flag);
+    public static DataOPC getDataOPC(short[][] dataOrigin,Flag flag){
+        DataOPC dataOPC=new DataOPC();
+        directOPC(flag,dataOrigin,dataOPC);
         return  dataOPC;
     }
 
-    public DataOPC findBase(short[][] dataOrigin,Flag flag){
-        this.dataOrigin = dataOrigin;
-        dataOPC=new DataOPC();
+    public static DataOPC findBase(short[][] dataOrigin,Flag flag){//TODO What it that doing ?
+        DataOPC dataOPC=new DataOPC();
 
-        MakeUnSigned();
+        MakeUnSigned(dataOrigin,dataOPC);
         if(flag.isDC()) {
-            DCminus();
+            DCminus(dataOrigin,dataOPC);
         }
-        FindeBase();
+        FindeBase(dataOrigin,dataOPC);
 
         return  dataOPC;}
-    public DataOPC directOPCwithFindedBase(short[][] dataOrigin,DataOPC d,Flag flag){
-        this.dataOrigin = dataOrigin;
-        this.dataOPC=d;
+    public static DataOPC directOPCwithFindedBase(short[][] dataOrigin,DataOPC d,Flag flag){
+        DataOPC dataOPC=d;
 
-        MakeUnSigned();
+        MakeUnSigned(dataOrigin,dataOPC);
         if(flag.isDC()) {
-            DCminus();
+            DCminus(dataOrigin,dataOPC);
         }
 
         if(flag.isLongCode())
-            OPCdirectUseOnlyLong();
+            OPCdirectUseOnlyLong(dataOrigin,dataOPC);
         else
-            OPCdirect();
+            OPCdirect(dataOrigin,dataOPC);
         return dataOPC;
     }
 

@@ -5,7 +5,7 @@ import com.divan.imagecompression.Containers.BoxOfOPC;
 import com.divan.imagecompression.Containers.Matrix;
 import com.divan.imagecompression.Utils.DCTMultiThread;
 import com.divan.imagecompression.Utils.Encryption;
-import com.divan.imagecompression.Utils.OPC;
+import com.divan.imagecompression.Utils.OPCMultiThread;
 import com.divan.imagecompression.Utils.Steganography;
 import com.divan.imagecompression.Utils.FileStream;
 
@@ -45,9 +45,6 @@ public class ApplicationOPC {//singelton
         Width=dataOrigin.length;
         Height=dataOrigin[0].length;
 
-        OPC opc=OPC.getInstance();
-
-
         short[][]buf=new short[SIZEOFBLOCK][SIZEOFBLOCK];
 
         for (int i = 0; i < duWidth; i++) {
@@ -64,7 +61,7 @@ public class ApplicationOPC {//singelton
                         // DU[i][j].setValue(val,x,y);
                     }
                 }
-                dopc[i][j]=opc.getDataOPC(buf,matrix.f);
+                dopc[i][j]= OPCMultiThread.getDataOPC(buf,matrix.f);
 
             }
         }
@@ -77,14 +74,13 @@ public class ApplicationOPC {//singelton
         Height=duHeight*SIZEOFBLOCK;
         short[][] res=new short[Width][Height];
 
-        OPC opc=OPC.getInstance();
         boolean DC=fs.getFlag().isDC();
         short[][]buf;//=new short[SIZEOFBLOCK][SIZEOFBLOCK];
 
         for (int i = 0; i < duWidth; i++) {
             for (int j = 0; j < duHeight; j++) {//j=3 erro
 
-                buf=opc.getDataOrigin(dopc[i][j],matrix.f);
+                buf= OPCMultiThread.getDataOrigin(dopc[i][j],matrix.f);
 
                 for (int x = 0; x < DCTMultiThread.SIZEOFBLOCK; x++) {
                     for (int y = 0; y < DCTMultiThread.SIZEOFBLOCK; y++) {
@@ -233,9 +229,6 @@ public class ApplicationOPC {//singelton
 
     }
     private void findAllBase(short[][]dataOrigin,DataOPC[][]dopc){
-        OPC opc=OPC.getInstance();
-
-
         short[][]buf=new short[SIZEOFBLOCK][SIZEOFBLOCK];
 
         for (int i = 0; i < duWidth; i++) {
@@ -252,7 +245,7 @@ public class ApplicationOPC {//singelton
                         // DU[i][j].setValue(val,x,y);
                     }
                 }
-                dopc[i][j]=opc.findBase(buf,matrix.f);
+                dopc[i][j]= OPCMultiThread.findBase(buf,matrix.f);
 
             }
         }
@@ -291,9 +284,6 @@ public class ApplicationOPC {//singelton
         return a;
     }
     private void directOPCwithGlobalBase(short[][]dataOrigin,DataOPC[][]dopc){
-        OPC opc=OPC.getInstance();
-
-
         short[][]buf=new short[SIZEOFBLOCK][SIZEOFBLOCK];
 
         for (int i = 0; i < duWidth; i++) {
@@ -310,7 +300,7 @@ public class ApplicationOPC {//singelton
                         // DU[i][j].setValue(val,x,y);
                     }
                 }
-                dopc[i][j]=opc.directOPCwithFindedBase(buf,dopc[i][j],matrix.f);
+                dopc[i][j]= OPCMultiThread.directOPCwithFindedBase(buf,dopc[i][j],matrix.f);
 
             }
         }

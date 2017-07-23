@@ -1,7 +1,5 @@
 package com.divan.imagecompression.Utils;
 
-import android.test.mock.MockContext;
-
 import com.divan.imagecompression.Objects.DataOPC;
 import com.divan.imagecompression.Objects.Flag;
 
@@ -10,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.sql.Time;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -44,11 +41,10 @@ public class OPC_Test {
 
     @Before
     public void setUp() throws Exception {
-        OPC opc=OPC.getInstance();
         origin=DEFAULT;
         Flag f= new Flag((short)0);
-        DataOPC dataOPC=opc.getDataOPC(origin,f);
-        result=opc.getDataOrigin(dataOPC,f);
+        DataOPC dataOPC= OPCMultiThread.getDataOPC(origin,f);
+        result= OPCMultiThread.getDataOrigin(dataOPC,f);
     }
 
     @Test
